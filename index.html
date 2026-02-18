@@ -350,34 +350,233 @@
     // Formeln: Nutze HTML mit <span class="math">E<sub>F</sub></span>, <span class="math">J<sub>Drift</sub></span>, <span class="math">E<sub>g</sub></span> usw.
 
     const BASE_QUESTIONS = [
+      /*=========================
+      BANDSTRUKTUR
+      =========================*/
+
       {
-        section: "Intrinsisch/Extrinsisch",
-        text: "Im intrinsischen Halbleiter gilt <span class=\"math\">n = p</span>.",
-        correct: true,
-        explanation: "Elektronen und Löcher entstehen paarweise als Elektron-Loch-Paare. Deshalb sind Elektronen- und Lochdichte im intrinsischen Material gleich.",
-        correction: "Merksatz: Intrinsisch bedeutet <span class=\"math\">n=p=n<sub>i</sub></span>."
+      section: "Bandstruktur",
+      text: "Ein Halbleiter besitzt eine Bandlücke <span class=\"math\">E<sub>g</sub></span> zwischen Valenz- und Leitungsband.",
+      correct: true,
+      explanation: "Definition eines Halbleiters: verbotener Energiebereich zwischen den Bändern.",
+      correction: "Merksatz: <span class=\"math\">E<sub>g</sub></span> trennt Valenz- und Leitungsband."
       },
+
       {
-        section: "Dotierung",
-        text: "Dotierung verändert die Bandlücke <span class=\"math\">E<sub>g</sub></span>.",
-        correct: false,
-        explanation: "Im Vorlesungsmodell verändert Dotierung die Besetzung (und damit die Lage des Fermi-Niveaus), nicht die Bandstruktur bzw. <span class=\"math\">E<sub>g</sub></span>.",
-        correction: "Korrektur: Dotierung verschiebt das Fermi-Niveau <span class=\"math\">E<sub>F</sub></span>; die Bandlücke <span class=\"math\">E<sub>g</sub></span> bleibt (im Modell) unverändert."
+      section: "Bandstruktur",
+      text: "Die Bandlücke <span class=\"math\">E<sub>g</sub></span> entsteht durch Dotierung.",
+      correct: false,
+      explanation: "Dotierung verschiebt das Fermi-Niveau, nicht die Bandstruktur.",
+      correction: "Bandlücken entstehen durch das periodische Gitterpotential."
       },
+
       {
-        section: "Transport im Gleichgewicht",
-        text: "Im thermischen Gleichgewicht gilt <span class=\"math\">J<sub>Drift</sub> = -J<sub>Diff</sub></span>.",
-        correct: true,
-        explanation: "Drift und Diffusion wirken entgegengesetzt und kompensieren sich: <span class=\"math\">J<sub>ges</sub>=J<sub>Drift</sub>+J<sub>Diff</sub>=0</span>.",
-        correction: "Merksatz: Gleichgewicht heißt nicht ‘keine Bewegung’, sondern ‘keine Netto-Stromdichte’."
+      section: "Bandstruktur",
+      text: "Im Metall liegt das Fermi-Niveau <span class=\"math\">E<sub>F</sub></span> innerhalb eines Bandes.",
+      correct: true,
+      explanation: "Es existieren freie Zustände bei <span class=\"math\">E<sub>F</sub></span> → hohe Leitfähigkeit."
       },
+
+      /* =========================
+        FERMI-DIRAC
+      ========================= */
+
       {
-        section: "Direkt/Indirekt",
-        text: "Ein indirekter Halbleiter kann kein Licht emittieren.",
-        correct: false,
-        explanation: "Emission ist prinzipiell möglich, aber deutlich ineffizient, weil zur Impulserhaltung typischerweise ein Phonon beteiligt sein muss.",
-        correction: "Korrektur: Indirekte Halbleiter emittieren prinzipiell, aber viel weniger effizient als direkte."
+      section: "Fermi-Dirac",
+      text: "Die Fermi-Dirac-Verteilung <span class=\"math\">f(E)=1/(1+e^{(E-E<sub>F</sub>)/kT})</span> beschreibt die Besetzungswahrscheinlichkeit eines Zustands.",
+      correct: true,
+      explanation: "Sie gibt die Wahrscheinlichkeit an, dass ein Zustand der Energie E besetzt ist."
+      },
+
+      {
+      section: "Fermi-Dirac",
+      text: "Bei <span class=\"math\">T=0 K</span> gilt <span class=\"math\">f(E)=1</span> für alle Energien.",
+      correct: false,
+      explanation: "Nur für <span class=\"math\">E&lt;E<sub>F</sub></span> ist f(E)=1.",
+      correction: "Bei <span class=\"math\">T=0</span> ist f(E)=1 unterhalb von <span class=\"math\">E<sub>F</sub></span> und 0 oberhalb."
+      },
+
+      {
+      section: "Fermi-Dirac",
+      text: "Bei <span class=\"math\">E=E<sub>F</sub></span> gilt stets <span class=\"math\">f(E)=0,5</span>.",
+      correct: true,
+      explanation: "Unabhängig von der Temperatur ist die Besetzungswahrscheinlichkeit dort 50 %."
+      },
+
+      /* =========================
+        INTRINSISCH
+      ========================= */
+
+      {
+      section: "Intrinsisch",
+      text: "Im intrinsischen Halbleiter gilt <span class=\"math\">n=p=n<sub>i</sub></span>.",
+      correct: true,
+      explanation: "Elektronen und Löcher entstehen paarweise."
+      },
+
+      {
+      section: "Intrinsisch",
+      text: "Die intrinsische Ladungsträgerdichte <span class=\"math\">n<sub>i</sub></span> steigt exponentiell mit der Temperatur.",
+      correct: true,
+      explanation: "Thermische Anregung über <span class=\"math\">E<sub>g</sub></span> folgt einem Exponentialgesetz."
+      },
+
+      {
+      section: "Intrinsisch",
+      text: "Im intrinsischen Halbleiter liegt <span class=\"math\">E<sub>F</sub></span> nahe dem Leitungsband.",
+      correct: false,
+      explanation: "Im intrinsischen Material liegt <span class=\"math\">E<sub>F</sub></span> nahe der Bandmitte."
+      },
+
+      /* =========================
+        MASSENWIRKUNGSGESETZ
+      ========================= */
+
+      {
+      section: "Massenwirkungsgesetz",
+      text: "Im thermischen Gleichgewicht gilt <span class=\"math\">n·p = n<sub>i</sub><sup>2</sup></span>.",
+      correct: true,
+      explanation: "Das ist das Massenwirkungsgesetz."
+      },
+
+      {
+      section: "Massenwirkungsgesetz",
+      text: "Wenn <span class=\"math\">n</span> steigt, steigt auch <span class=\"math\">p</span>.",
+      correct: false,
+      explanation: "Da <span class=\"math\">n·p</span> konstant ist, sinkt p.",
+      correction: "Erhöht man n, muss p entsprechend kleiner werden."
+      },
+
+      /* =========================
+        DRIFT
+      ========================= */
+
+      {
+      section: "Drift",
+      text: "Die Driftstromdichte lautet <span class=\"math\">J = q·n·μ·E</span>.",
+      correct: true,
+      explanation: "Drift entsteht durch ein elektrisches Feld."
+      },
+
+      {
+      section: "Drift",
+      text: "Ohne elektrisches Feld ist <span class=\"math\">J<sub>Drift</sub></span> gleich null.",
+      correct: true,
+      explanation: "Drift benötigt ein Feld."
+      },
+
+      {
+      section: "Drift",
+      text: "Eine größere Mobilität <span class=\"math\">μ</span> führt zu kleinerem Strom.",
+      correct: false,
+      explanation: "Größere μ erhöht den Driftstrom.",
+      correction: "Je größer μ, desto größer J bei gleichem Feld."
+      },
+
+      /* =========================
+        DIFFUSION
+      ========================= */
+
+      {
+      section: "Diffusion",
+      text: "Diffusion entsteht durch Konzentrationsgradienten.",
+      correct: true,
+      explanation: "Träger bewegen sich statistisch vom hohen zum niedrigen Konzentrationsbereich."
+      },
+
+      {
+      section: "Diffusion",
+      text: "Diffusion benötigt ein elektrisches Feld.",
+      correct: false,
+      explanation: "Diffusion ist feldunabhängig."
+      },
+
+      {
+      section: "Gesamtstrom",
+      text: "Es gilt <span class=\"math\">J<sub>ges</sub>=J<sub>Drift</sub>+J<sub>Diff</sub></span>.",
+      correct: true,
+      explanation: "Gesamtstrom ist Summe beider Beiträge."
+      },
+
+      {
+      section: "Gleichgewicht",
+      text: "Im thermischen Gleichgewicht gilt <span class=\"math\">J<sub>ges</sub>=0</span>.",
+      correct: true,
+      explanation: "Drift und Diffusion kompensieren sich."
+      },
+
+      /* =========================
+        PN-ÜBERGANG
+      ========================= */
+
+      {
+      section: "pn-Übergang",
+      text: "Im Gleichgewicht ist <span class=\"math\">E<sub>F</sub></span> über den gesamten pn-Übergang konstant.",
+      correct: true,
+      explanation: "Fermi-Niveau ist im Gleichgewicht überall gleich."
+      },
+
+      {
+      section: "pn-Übergang",
+      text: "Die Raumladungszone enthält viele freie Elektronen.",
+      correct: false,
+      explanation: "Dort befinden sich kaum freie Träger.",
+      correction: "Es bleiben ortsfeste Ionen zurück."
+      },
+
+      {
+      section: "pn-Übergang",
+      text: "Das interne elektrische Feld wirkt der Diffusion entgegen.",
+      correct: true,
+      explanation: "Es erzeugt einen entgegengesetzten Driftstrom."
+      },
+
+      /* =========================
+        DIODE
+      ========================= */
+
+      {
+      section: "Diode",
+      text: "Eine Vorwärtsspannung senkt die Potentialbarriere.",
+      correct: true,
+      explanation: "Dadurch steigt der Strom exponentiell an."
+      },
+
+      {
+      section: "Diode",
+      text: "Der Sperrstrom wird durch Mehrheitsträger verursacht.",
+      correct: false,
+      explanation: "Sperrstrom hängt an Minderheitsträgern.",
+      correction: "Mehrheitsträger sind gesperrt."
+      },
+
+      /* =========================
+        OPTOELEKTRONIK
+      ========================= */
+
+      {
+      section: "Optoelektronik",
+      text: "Die Photonenenergie einer LED entspricht ungefähr <span class=\"math\">E<sub>g</sub></span>.",
+      correct: true,
+      explanation: "Rekombination setzt Energie ~ Bandlücke frei."
+      },
+
+      {
+      section: "Optoelektronik",
+      text: "Ein direkter Halbleiter eignet sich besser für LEDs als ein indirekter.",
+      correct: true,
+      explanation: "Direkte Rekombination ohne Phonon."
+      },
+
+      {
+      section: "Optoelektronik",
+      text: "In einer Photodiode erzeugt Licht Elektron-Loch-Paare.",
+      correct: true,
+      explanation: "Innerer Photoeffekt."
       }
+
+  
+
     ];
 
     let questions = [];
