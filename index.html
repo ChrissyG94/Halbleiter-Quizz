@@ -16,11 +16,14 @@
       skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
     }
   };
-    function renderMath() {
-      if (window.MathJax && window.MathJax.typesetPromise) {
-        window.MathJax.typesetPromise();
-      }
+
+  function renderMath() {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      window.MathJax.typesetClear?.();
+      window.MathJax.typesetPromise();
     }
+  }
+
   </script>
 
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -40,10 +43,11 @@
       --accent: #3b82f6;
       --accent2: #60a5fa;
       --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-      mjx-container, mjx-container * {
-        font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", "Times New Roman", serif !important;
-      }
+    }
 
+    /* MathJax-Schrift */
+    mjx-container, mjx-container * {
+      font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", "Times New Roman", serif !important;
     }
 
     * { box-sizing: border-box; }
@@ -529,7 +533,7 @@
 
     {
       section: "Fermi-Dirac",
-      text: "Die Fermi-Dirac-Verteilung lautet: \\[ f(E)=\\frac{1}{1+\\exp\\left(\\frac{E-E_F}{kT}\\right)} \\]" und beschreibt die Besetzungswahrscheinlichkeit.",
+      text: "Die Fermi-Dirac-Verteilung lautet: \\\\[ f(E)=\\\\frac{1}{1+\\\\exp\\\\left(\\\\frac{E-E_F}{kT}\\\\right)} \\\\] und beschreibt die Besetzungswahrscheinlichkeit.",
       correct: true,
       explanation: "Die Verteilung gibt die Wahrscheinlichkeit an, dass ein Zustand der Energie \\(E\\) besetzt ist. Bei \\(T=0\\,K\\) ist sie eine Stufenfunktion: unterhalb \\(E_F\\) ist \\(f(E)=1\\) (100% besetzt), oberhalb \\(E_F\\) ist \\(f(E)=0\\) (leer).",
       correction: "Merksatz: \\(E=E_F\\Rightarrow f(E)=0{,}5\\)."
@@ -597,7 +601,7 @@
     },
     {
       section: "Massenwirkungsgesetz",
-      text: "Im thermischen Gleichgewicht gilt <span class=\"math\">n·p = n<sub>i</sub><sup>2</sup></span>.",
+      text: "Im thermischen Gleichgewicht gilt <span class=\"math\">J<sub>Drift</sub> = J<sub>Diff</sub></span>.",
       correct: true,
       explanation: "Das Massenwirkungsgesetz koppelt Mehrheit- und Minderheitsträger: Erhöht man n (z.B. n-Dotierung), sinkt p so, dass das Produkt konstant bleibt.",
       correction: "Merksatz: Gleichgewicht → Produkt konstant."
