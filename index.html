@@ -3,29 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Halbleiter – Richtig/Falsch Trainer</title>
-
-  <!-- MathJax für Formelschreibweise (LaTeX in \( ... \) oder \[ ... \]) -->
-  <script>
-    window.MathJax = {
-      tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] },
-      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
-    };
-  </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <title>Halbleiter – Was kann ich schon?</title>
 
   <style>
     :root {
-      --bg: #0b1220;
-      --card: rgba(255, 255, 255, 0.06);
-      --card-border: rgba(255, 255, 255, 0.14);
-      --text: rgba(255, 255, 255, 0.92);
-      --muted: rgba(255, 255, 255, 0.72);
-      --muted2: rgba(255, 255, 255, 0.55);
-      --green: #22c55e;
-      --red: #ef4444;
-      --accent: #60a5fa;
-      --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      --bg: #070d1a;
+      --card-border: rgba(255, 255, 255, 0.20);
+      --text: rgba(255, 255, 255, 0.98);
+      --muted: rgba(255, 255, 255, 0.86);
+      --muted2: rgba(255, 255, 255, 0.72);
+      --green: #16a34a;
+      --green2: #22c55e;
+      --red: #dc2626;
+      --red2: #ef4444;
+      --accent: #3b82f6;
+      --accent2: #60a5fa;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
     }
 
     * { box-sizing: border-box; }
@@ -33,19 +26,28 @@
     body {
       margin: 0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 800px at 20% 10%, rgba(96,165,250,0.18), transparent 55%),
-                  radial-gradient(900px 700px at 85% 15%, rgba(34,197,94,0.14), transparent 60%),
-                  radial-gradient(900px 700px at 55% 95%, rgba(239,68,68,0.10), transparent 60%),
-                  var(--bg);
+      background:
+        radial-gradient(1200px 820px at 18% 10%, rgba(96,165,250,0.22), transparent 58%),
+        radial-gradient(1000px 760px at 88% 12%, rgba(34,197,94,0.18), transparent 62%),
+        radial-gradient(1000px 760px at 55% 95%, rgba(239,68,68,0.14), transparent 62%),
+        var(--bg);
       color: var(--text);
       min-height: 100vh;
-      padding: 36px 16px;
+      padding: 40px 16px;
     }
 
-    .wrap {
-      max-width: 980px;
-      margin: 0 auto;
+    /* Formelschrift (wenn auf dem System vorhanden) */
+    .math {
+      font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", "Times New Roman", serif;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
     }
+    .math sub {
+      font-size: 0.75em;
+      vertical-align: -0.25em;
+    }
+
+    .wrap { max-width: 1020px; margin: 0 auto; }
 
     header {
       display: flex;
@@ -56,42 +58,34 @@
       margin-bottom: 18px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 26px;
-      letter-spacing: 0.2px;
-    }
+    h1 { margin: 0; font-size: 32px; letter-spacing: 0.2px; }
 
     .subtitle {
-      margin-top: 6px;
+      margin-top: 8px;
       color: var(--muted);
-      font-size: 14px;
-      max-width: 720px;
+      font-size: 17px;
+      max-width: 780px;
     }
 
-    .pillrow {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
+    .pillrow { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
     .pill {
       border: 1px solid var(--card-border);
-      background: rgba(255,255,255,0.05);
-      padding: 6px 10px;
+      background: rgba(255,255,255,0.09);
+      padding: 8px 12px;
       border-radius: 999px;
-      font-size: 12px;
+      font-size: 13px;
       color: var(--muted);
+      backdrop-filter: blur(10px);
     }
 
     .card {
       border: 1px solid var(--card-border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04));
-      border-radius: 18px;
-      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.06));
+      border-radius: 20px;
+      padding: 20px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
     }
 
     .topbar {
@@ -103,31 +97,54 @@
       margin-bottom: 14px;
     }
 
-    .progresswrap {
-      display: grid;
-      gap: 6px;
-      min-width: 240px;
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
     }
+
+    .toggle {
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      padding: 9px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.20);
+      background: rgba(0,0,0,0.18);
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .toggle input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent2);
+    }
+
+    .progresswrap { display: grid; gap: 7px; min-width: 280px; }
 
     .progressline {
       width: 100%;
-      height: 10px;
+      height: 12px;
       border-radius: 999px;
-      background: rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.14);
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.16);
     }
 
     .bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, rgba(96,165,250,0.95), rgba(34,197,94,0.95));
+      background: linear-gradient(90deg, rgba(96,165,250,0.99), rgba(34,197,94,0.99));
       border-radius: 999px;
       transition: width 220ms ease;
     }
 
     .progressmeta {
-      font-size: 12px;
+      font-size: 13px;
       color: var(--muted2);
       display: flex;
       justify-content: space-between;
@@ -136,140 +153,138 @@
     }
 
     .statement {
-      font-size: 18px;
+      font-size: 24px;
       line-height: 1.55;
-      padding: 14px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.14);
+      padding: 18px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.20);
     }
 
     .actions {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-      margin-top: 14px;
+      margin-top: 16px;
     }
 
     .btn {
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      padding: 10px 14px;
-      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.20);
+      color: rgba(255,255,255,0.99);
+      padding: 12px 16px;
+      border-radius: 14px;
       cursor: pointer;
-      font-size: 14px;
-      transition: transform 80ms ease, background 160ms ease, border-color 160ms ease;
+      font-size: 16px;
+      font-weight: 800;
+      transition: transform 80ms ease, filter 160ms ease;
       user-select: none;
     }
 
-    .btn:hover { background: rgba(255,255,255,0.10); }
-    .btn:active { transform: scale(0.98); }
+    .btn:hover { filter: brightness(1.06); }
+    .btn:active { transform: scale(0.985); }
     .btn[disabled] { opacity: 0.55; cursor: not-allowed; }
 
     .btn-true {
-      border-color: rgba(34,197,94,0.45);
-      background: rgba(34,197,94,0.16);
+      border-color: rgba(34,197,94,0.75);
+      background: linear-gradient(180deg, rgba(34,197,94,1.0), rgba(22,163,74,0.98));
+      box-shadow: 0 10px 28px rgba(34,197,94,0.22);
     }
 
     .btn-false {
-      border-color: rgba(239,68,68,0.45);
-      background: rgba(239,68,68,0.14);
+      border-color: rgba(239,68,68,0.75);
+      background: linear-gradient(180deg, rgba(239,68,68,1.0), rgba(220,38,38,0.98));
+      box-shadow: 0 10px 28px rgba(239,68,68,0.20);
     }
 
     .btn-next {
       margin-left: auto;
-      border-color: rgba(96,165,250,0.50);
-      background: rgba(96,165,250,0.16);
+      border-color: rgba(96,165,250,0.80);
+      background: linear-gradient(180deg, rgba(96,165,250,0.98), rgba(59,130,246,0.98));
+      box-shadow: 0 10px 28px rgba(96,165,250,0.22);
+    }
+
+    .btn-soft {
+      background: rgba(255,255,255,0.12);
+      border-color: rgba(255,255,255,0.22);
+      font-weight: 800;
     }
 
     .result {
-      margin-top: 14px;
-      padding: 14px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.06);
+      margin-top: 16px;
+      padding: 16px 14px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.08);
       display: none;
     }
 
     .tag {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      margin-bottom: 8px;
+      gap: 10px;
+      font-weight: 900;
+      margin-bottom: 10px;
+      font-size: 16px;
     }
 
     .tag .dot {
       width: 10px;
       height: 10px;
       border-radius: 999px;
-      background: var(--accent);
+      background: var(--accent2);
       display: inline-block;
     }
 
-    .tag.good { color: var(--green); }
-    .tag.good .dot { background: var(--green); }
+    .tag.good { color: var(--green2); }
+    .tag.good .dot { background: var(--green2); }
 
-    .tag.bad { color: var(--red); }
-    .tag.bad .dot { background: var(--red); }
+    .tag.bad { color: var(--red2); }
+    .tag.bad .dot { background: var(--red2); }
 
     .explain {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.55;
+      color: rgba(255,255,255,0.95);
+      font-size: 17px;
+      line-height: 1.65;
     }
 
     .correction {
-      margin-top: 10px;
-      padding: 10px 10px;
-      border-left: 3px solid rgba(96,165,250,0.80);
-      background: rgba(96,165,250,0.10);
-      border-radius: 10px;
-      color: var(--text);
-      font-size: 14px;
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-left: 4px solid rgba(96,165,250,0.98);
+      background: rgba(96,165,250,0.16);
+      border-radius: 12px;
+      color: rgba(255,255,255,0.98);
+      font-size: 17px;
+      line-height: 1.6;
     }
 
-    .footerhint {
-      margin-top: 16px;
-      color: var(--muted2);
-      font-size: 12px;
-    }
+    .footerhint { margin-top: 16px; color: var(--muted2); font-size: 13px; }
 
     .end {
       display: none;
-      margin-top: 14px;
-      padding: 16px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(0,0,0,0.18);
+      margin-top: 16px;
+      padding: 18px 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.20);
+      background: rgba(0,0,0,0.22);
     }
 
-    .end h2 {
-      margin: 0 0 6px 0;
-      font-size: 18px;
-    }
+    .end h2 { margin: 0 0 8px 0; font-size: 20px; }
 
     .end .score {
-      font-size: 22px;
-      font-weight: 800;
-      margin: 6px 0 10px 0;
-      color: rgba(255,255,255,0.92);
+      font-size: 28px;
+      font-weight: 950;
+      margin: 6px 0 12px 0;
+      color: rgba(255,255,255,0.99);
     }
 
-    .end .motto {
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .end .btn {
-      margin-top: 12px;
-    }
+    .end .motto { color: var(--muted); font-size: 17px; line-height: 1.65; }
 
     @media (max-width: 520px) {
       .btn-next { margin-left: 0; width: 100%; }
-      .actions { gap: 8px; }
+      .actions { gap: 10px; }
+      .statement { font-size: 21px; }
     }
   </style>
 </head>
@@ -277,9 +292,9 @@
   <div class="wrap">
     <header>
       <div>
-        <h1>Halbleiter – Richtig/Falsch Trainer</h1>
+        <h1>Halbleiter – Was kann ich schon?</h1>
         <div class="subtitle">
-          Eine Aussage, eine Entscheidung: <strong>Richtig</strong> oder <strong>Falsch</strong>. Danach bekommst du direkt die Lösung mit kurzer Erklärung – und (falls nötig) eine saubere Korrektur.
+          Eine Aussage, eine Entscheidung: <strong>Richtig</strong> oder <strong>Falsch</strong>. Direkt danach bekommst du die Lösung mit kurzer Erklärung – und (falls nötig) eine saubere Korrektur.
         </div>
       </div>
       <div class="pillrow">
@@ -298,6 +313,13 @@
             <span id="progressRight">0% erledigt</span>
           </div>
         </div>
+        <div class="controls">
+          <label class="toggle" title="Wenn aktiv, wird die Reihenfolge bei jedem Neustart gemischt.">
+            <input type="checkbox" id="shuffleToggle" />
+            Shuffle
+          </label>
+          <button class="btn btn-soft" id="btnRestart" onclick="restart(true)">Neu starten</button>
+        </div>
       </div>
 
       <div class="statement" id="question">–</div>
@@ -314,7 +336,7 @@
         <h2>Fertig 🎉</h2>
         <div class="score" id="endScore">–</div>
         <div class="motto" id="endMotto">–</div>
-        <button class="btn" onclick="restart()">Nochmal spielen</button>
+        <button class="btn btn-soft" onclick="restart(true)">Nochmal spielen</button>
       </div>
 
       <div class="footerhint">
@@ -325,27 +347,28 @@
 
   <script>
     // ✅ Fragen erweitern: Einfach weitere Objekte in dieses Array einfügen.
-    // Formeln: Nutze LaTeX inline mit \( ... \), z.B. "Im Gleichgewicht gilt \\(J_{Drift} = -J_{Diff}\\)."
-    const questions = [
+    // Formeln: Nutze HTML mit <span class="math">E<sub>F</sub></span>, <span class="math">J<sub>Drift</sub></span>, <span class="math">E<sub>g</sub></span> usw.
+
+    const BASE_QUESTIONS = [
       {
         section: "Intrinsisch/Extrinsisch",
-        text: "Im intrinsischen Halbleiter gilt \(n = p\).",
+        text: "Im intrinsischen Halbleiter gilt <span class=\"math\">n = p</span>.",
         correct: true,
         explanation: "Elektronen und Löcher entstehen paarweise als Elektron-Loch-Paare. Deshalb sind Elektronen- und Lochdichte im intrinsischen Material gleich.",
-        correction: "Merksatz: Intrinsisch bedeutet \(n=p=n_i\)."
+        correction: "Merksatz: Intrinsisch bedeutet <span class=\"math\">n=p=n<sub>i</sub></span>."
       },
       {
         section: "Dotierung",
-        text: "Dotierung verändert die Bandlücke \(E_g\).",
+        text: "Dotierung verändert die Bandlücke <span class=\"math\">E<sub>g</sub></span>.",
         correct: false,
-        explanation: "Im Vorlesungsmodell verändert Dotierung die Besetzung (und damit die Lage des Fermi-Niveaus), nicht die Bandstruktur bzw. \(E_g\).",
-        correction: "Korrektur: Dotierung verschiebt das Fermi-Niveau \(E_F\); die Bandlücke \(E_g\) bleibt (im Modell) unverändert."
+        explanation: "Im Vorlesungsmodell verändert Dotierung die Besetzung (und damit die Lage des Fermi-Niveaus), nicht die Bandstruktur bzw. <span class=\"math\">E<sub>g</sub></span>.",
+        correction: "Korrektur: Dotierung verschiebt das Fermi-Niveau <span class=\"math\">E<sub>F</sub></span>; die Bandlücke <span class=\"math\">E<sub>g</sub></span> bleibt (im Modell) unverändert."
       },
       {
         section: "Transport im Gleichgewicht",
-        text: "Im thermischen Gleichgewicht gilt \(J_{Drift} = -J_{Diff}\).",
+        text: "Im thermischen Gleichgewicht gilt <span class=\"math\">J<sub>Drift</sub> = -J<sub>Diff</sub></span>.",
         correct: true,
-        explanation: "Drift und Diffusion wirken entgegengesetzt und kompensieren sich: \(J_{gesamt}=J_{Drift}+J_{Diff}=0\).",
+        explanation: "Drift und Diffusion wirken entgegengesetzt und kompensieren sich: <span class=\"math\">J<sub>ges</sub>=J<sub>Drift</sub>+J<sub>Diff</sub>=0</span>.",
         correction: "Merksatz: Gleichgewicht heißt nicht ‘keine Bewegung’, sondern ‘keine Netto-Stromdichte’."
       },
       {
@@ -357,16 +380,24 @@
       }
     ];
 
+    let questions = [];
     let current = 0;
     let score = 0;
     let answered = false;
 
     function $(id) { return document.getElementById(id); }
 
-    function renderMath() {
-      if (window.MathJax && window.MathJax.typesetPromise) {
-        window.MathJax.typesetPromise();
+    function shuffleArray(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
       }
+      return a;
+    }
+
+    function initQuestions(shouldShuffle) {
+      questions = shouldShuffle ? shuffleArray(BASE_QUESTIONS) : [...BASE_QUESTIONS];
     }
 
     function updateHeader() {
@@ -392,7 +423,6 @@
 
       $("question").innerHTML = questions[current].text;
       updateHeader();
-      renderMath();
     }
 
     function answer(choice) {
@@ -410,8 +440,9 @@
       const solutionText = q.correct ? "Richtig" : "Falsch";
       const dot = "<span class='dot'></span>";
 
+      const corrLabel = q.correct ? "Merksatz" : "Physikalisch richtige Formulierung";
       const corrBlock = q.correction
-        ? `<div class='correction'><strong>${q.correct ? "Merksatz" : "Physikalisch richtige Formulierung"}:</strong><br>${q.correction}</div>`
+        ? `<div class='correction'><strong>${corrLabel}:</strong><br>${q.correction}</div>`
         : "";
 
       $("result").innerHTML = `
@@ -424,12 +455,9 @@
       $("btnTrue").disabled = true;
       $("btnFalse").disabled = true;
       $("btnNext").disabled = false;
-
-      renderMath();
     }
 
     function finish() {
-      // final progress
       $("bar").style.width = "100%";
       $("progressRight").innerText = "100% erledigt";
 
@@ -439,11 +467,11 @@
       const ratio = score / total;
       let motto = "";
       if (ratio === 1) {
-        motto = "Stark! Das sitzt richtig. Jetzt einmal die Banddiagramme skizzieren – dann bist du prüfungsbereit.";
+        motto = "Stark! Das sitzt. Als nächstes: Banddiagramme skizzieren (intrinsisch, n/p-dotiert, pn-Übergang).";
       } else if (ratio >= 0.75) {
-        motto = "Sehr gut! Kleine Lücken noch schließen: Schau dir besonders die Aussagen an, bei denen du unsicher warst.";
+        motto = "Sehr gut! Jetzt gezielt die 1–2 wackligen Konzepte festziehen – dann bist du prüfungsbereit.";
       } else if (ratio >= 0.5) {
-        motto = "Guter Zwischenstand. Wiederhole gezielt: Banddiagramme + Drift/Diffusion + Dotierung (EF-Verschiebung).";
+        motto = "Guter Zwischenstand. Tipp: Wiederhole Bandkanten + Fermi-Niveau + Drift/Diffusion (Gleichgewicht).";
       } else {
         motto = "Alles gut – genau dafür ist das Tool da. Mach eine zweite Runde und schreibe bei jeder falschen Aussage die korrekte Formulierung hin.";
       }
@@ -451,6 +479,10 @@
 
       $("end").style.display = "block";
       $("btnNext").disabled = true;
+
+      $("pillSection").innerText = "Ergebnis";
+      $("pillIndex").innerText = `Aussage ${questions.length} / ${questions.length}`;
+      $("progressLeft").innerText = `Fertig`;
     }
 
     function nextQuestion() {
@@ -459,7 +491,6 @@
         current += 1;
         showQuestion();
       } else {
-        // end
         $("question").innerHTML = "Du hast alle Aussagen bearbeitet.";
         $("result").style.display = "none";
         $("btnTrue").disabled = true;
@@ -468,15 +499,18 @@
       }
     }
 
-    function restart() {
+    function restart(keepToggle) {
+      const shouldShuffle = $("shuffleToggle").checked;
+      initQuestions(shouldShuffle);
       current = 0;
       score = 0;
-      // reset progress
       $("bar").style.width = "0%";
+      if (!keepToggle) $("shuffleToggle").checked = false;
       showQuestion();
     }
 
     // Start
+    initQuestions(false);
     showQuestion();
   </script>
 </body>
