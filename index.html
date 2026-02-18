@@ -4,6 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Halbleiter – Was kann ich schon?</title>
+  
+  <!-- MathJax für saubere Formeln (Brüche, Exponenten, etc.) -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']] },
+      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
     :root {
@@ -19,6 +28,10 @@
       --accent: #3b82f6;
       --accent2: #60a5fa;
       --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+      mjx-container, mjx-container * {
+        font-family: "Cambria Math", "STIX Two Math", "Latin Modern Math", "Times New Roman", serif !important;
+      }
+
     }
 
     * { box-sizing: border-box; }
@@ -350,232 +363,920 @@
     // Formeln: Nutze HTML mit <span class=\"math\">E<sub>F</sub></span>, <span class="math">J<sub>Drift</sub></span>, <span class="math">E<sub>g</sub></span> usw.
 
     const BASE_QUESTIONS = [
-      /*=========================
-      BANDSTRUKTUR
-      =========================*/
+ 
 
-      {
-      section: "Bandstruktur",
-      text: "Ein Halbleiter besitzt eine Bandlücke <span class=\"math\">E<sub>g</sub></span> zwischen Valenz- und Leitungsband.",
+    /* =========================
+      Wellen, Schrödinger, Grundlagen
+    ========================= */
+
+    {
+      section: "Wellen",
+      text: "Eine longitudinale Welle schwingt in Ausbreitungsrichtung, eine transversale Welle senkrecht dazu.",
       correct: true,
-      explanation: "Definition eines Halbleiters: verbotener Energiebereich zwischen den Bändern.",
-      correction: "Merksatz: <span class=\"math\">E<sub>g</sub></span> trennt Valenz- und Leitungsband."
-      },
-
-      {
-      section: "Bandstruktur",
-      text: "Die Bandlücke <span class=\"math\">E<sub>g</sub></span> entsteht durch Dotierung.",
+      explanation: "Bei longitudinalen Wellen liegt die Schwingungsrichtung parallel zur Ausbreitungsrichtung (z.B. Schall in Luft). Bei transversalen Wellen ist sie senkrecht dazu (z.B. Saite).",
+      correction: "Merksatz: longitudinal = parallel, transversal = senkrecht."
+    },
+    {
+      section: "Wellen",
+      text: "Eine stehende Welle entsteht durch Überlagerung zweier Wellen, die sich in entgegengesetzte Richtungen ausbreiten.",
+      correct: true,
+      explanation: "Durch Interferenz entstehen ortsfeste Knoten und Bäuche. Genau dieses Bild ist wichtig, um Bandlücken an Zonenrändern zu verstehen (stehende Elektronenwellen).",
+      correction: "Merksatz: stehende Welle = Knoten/Bäuche bleiben am Ort."
+    },
+    {
+      section: "Quantenmechanik",
+      text: "Die zeitunabhängige Schrödinger-Gleichung lautet <span class=\"math\">−(ħ<sup>2</sup>/(2m))·d<sup>2</sup>ψ/dx<sup>2</sup> + V(x)·ψ = E·ψ</span>.",
+      correct: true,
+      explanation: "Sie beschreibt stationäre Zustände: Für ein gegebenes Potential <span class=\"math\">V(x)</span> ergeben sich erlaubte Energien <span class=\"math\">E</span> und zugehörige Wellenfunktionen <span class=\"math\">ψ</span>.",
+      correction: "Merksatz: Potential + Randbedingungen → Quantisierung der Energie."
+    },
+    {
+      section: "Quantenmechanik",
+      text: "Die Wellenfunktion <span class=\"math\">ψ</span> ist direkt die messbare Ladungsdichte.",
       correct: false,
-      explanation: "Dotierung verschiebt das Fermi-Niveau, nicht die Bandstruktur.",
-      correction: "Bandlücken entstehen durch das periodische Gitterpotential."
-      },
+      explanation: "Messbar ist die Aufenthaltswahrscheinlichkeit bzw. Dichte <span class=\"math\">|ψ|<sup>2</sup></span>. <span class=\"math\">ψ</span> selbst kann komplex sein und ist nicht direkt messbar.",
+      correction: "Korrektur: Messbar ist <span class=\"math\">|ψ|<sup>2</sup></span>, nicht <span class=\"math\">ψ</span>."
+    },
 
-      {
-      section: "Bandstruktur",
-      text: "Im Metall liegt das Fermi-Niveau <span class=\"math\">E<sub>F</sub></span> innerhalb eines Bandes.",
+    /* =========================
+      Kristall, Gitter, Bloch, k-Raum
+    ========================= */
+
+    {
+      section: "Kristall & Gitter",
+      text: "Ein Kristall besitzt (idealisiert) ein periodisches Gitterpotential <span class=\"math\">V(r)</span>.",
       correct: true,
-      explanation: "Es existieren freie Zustände bei <span class=\"math\">E<sub>F</sub></span> → hohe Leitfähigkeit."
-      },
-
-      /* =========================
-        FERMI-DIRAC
-      ========================= */
-
-      {
-      section: "Fermi-Dirac",
-      text: "Die Fermi-Dirac-Verteilung <span class=\"math\">f(E)={1}over{1+exp((E-E<sub>F</sub>)over(kT))}</span> beschreibt die Besetzungswahrscheinlichkeit eines Zustands.",
+      explanation: "Die Periodizität des Gitters ist der Grund, warum Elektronen nicht wie im freien Raum laufen, sondern Bandstrukturen entstehen: erlaubte Energiebereiche und Bandlücken.",
+      correction: "Merksatz: Periodizität → Bandstruktur."
+    },
+    {
+      section: "Bloch-Theorem",
+      text: "Nach dem Bloch-Theorem kann man Elektronenzustände schreiben als <span class=\"math\">ψ<sub>n,k</sub>(r)=u<sub>n,k</sub>(r)·e^{i k·r}</span>.",
       correct: true,
-      explanation: "Sie gibt die Wahrscheinlichkeit an, dass ein Zustand der Energie E besetzt ist."
-      },
+      explanation: "Der Faktor <span class=\"math\">u<sub>n,k</sub>(r)</span> ist gitterperiodisch, der Exponentialterm beschreibt die Wellencharakteristik im Kristall. Das ist die Basis für das Konzept des <span class=\"math\">k</span>-Raums.",
+      correction: "Merksatz: Bloch = periodische Hülle × ebene Welle."
+    },
+    {
+      section: "k-Raum",
+      text: "Der Wellenvektor <span class=\"math\">k</span> ist im Kristall eine nützliche Quantenzahl, weil das Potential periodisch ist.",
+      correct: true,
+      explanation: "Durch Translationssymmetrie sind Zustände nach <span class=\"math\">k</span> klassifizierbar. Viele Aussagen zu Bandstruktur und effektiver Masse werden im <span class=\"math\">E(k)</span>-Bild formuliert.",
+      correction: "Merksatz: Bandstruktur wird als <span class=\"math\">E(k)</span> dargestellt."
+    },
+    {
+      section: "Reziprokes Gitter",
+      text: "Für ein 1D-Gitter mit Gitterkonstante <span class=\"math\">a</span> ist ein reziproker Gittervektor typischerweise <span class=\"math\">G = 2π/a</span>.",
+      correct: true,
+      explanation: "Das reziproke Gitter ist das natürliche Koordinatensystem für Beugung, Bragg-Bedingung und Brillouin-Zonen. Bandlücken treten häufig an Zonenrändern auf.",
+      correction: "Merksatz: reziprok ↔ <span class=\"math\">2π/a</span>."
+    },
+    {
+      section: "Brillouin-Zone",
+      text: "Der Rand der 1. Brillouin-Zone liegt in 1D bei <span class=\"math\">k = ±π/a</span>.",
+      correct: true,
+      explanation: "Genau dort wird Bragg-Reflexion relevant: Elektronenwellen können stehende Wellen bilden, was zur Energielücke (Bandlücke an Zonenrändern) führt.",
+      correction: "Merksatz: Zonenrand (1D) bei <span class=\"math\">±π/a</span>."
+    },
+    {
+      section: "Bragg / Bandlücke",
+      text: "Bandlücken treten bevorzugt dort auf, wo Bragg-Reflexion stehende Elektronenwellen erzeugt (z.B. am Zonenrand).",
+      correct: true,
+      explanation: "Am Zonenrand können sich laufende Wellen zu stehenden Wellen kombinieren. Diese haben unterschiedliche Energie → eine Lücke zwischen erlaubten Energien entsteht.",
+      correction: "Merksatz: stehende Wellen am Zonenrand → Bandlücke."
+    },
 
-      {
-      section: "Fermi-Dirac",
-      text: "Bei <span class=\"math\">T=0 K</span> gilt <span class=\"math\">f(E)=1</span> für alle Energien.",
+    /* =========================
+      Pauli, Spin, Zustandsdichte
+    ========================= */
+
+    {
+      section: "Pauli-Prinzip",
+      text: "Das Pauli-Prinzip besagt: Ein Quantenzustand kann höchstens von zwei Elektronen mit entgegengesetztem Spin besetzt werden.",
+      correct: true,
+      explanation: "Elektronen sind Fermionen. Dadurch werden Zustände „aufgefüllt“ und die Besetzung der Energieniveaus folgt der Fermi-Dirac-Statistik.",
+      correction: "Merksatz: max. 2 Elektronen pro Zustand (Spin ↑↓)."
+    },
+    {
+      section: "Spin-Entartung",
+      text: "Spin-Entartung führt häufig zu einem Faktor <span class=\"math\">g<sub>s</sub>=2</span> in der Zustandsanzahl.",
+      correct: true,
+      explanation: "Weil zu einem räumlichen Zustand typischerweise zwei Spinmöglichkeiten gehören, verdoppelt sich die Anzahl der verfügbaren Zustände.",
+      correction: "Merksatz: ohne Magnetfeld meistens <span class=\"math\">g<sub>s</sub>=2</span>."
+    },
+    {
+      section: "Zustandsdichte",
+      text: "Die Zustandsdichte (DOS) beschreibt, wie viele Zustände pro Energieintervall verfügbar sind.",
+      correct: true,
+      explanation: "DOS sagt: „Wie viele Zustände existieren?“ — die Fermi-Dirac-Verteilung sagt: „Wie viele davon sind besetzt?“ Beides zusammen bestimmt z.B. Ladungsträgerdichten.",
+      correction: "Merksatz: DOS = Existenz, FD = Besetzung."
+    },
+    {
+      section: "Zustandsdichte",
+      text: "Die Fermi-Dirac-Verteilung beschreibt, wie viele Zustände es gibt.",
       correct: false,
-      explanation: "Nur für <span class=\"math\">E&lt;E<sub>F</sub></span> ist f(E)=1.",
-      correction: "Bei <span class=\"math\">T=0</span> ist f(E)=1 unterhalb von <span class=\"math\">E<sub>F</sub></span> und 0 oberhalb."
-      },
+      explanation: "Die Anzahl der Zustände liefert die Zustandsdichte. Fermi-Dirac liefert nur die Wahrscheinlichkeit, dass ein gegebener Zustand besetzt ist.",
+      correction: "Korrektur: DOS → Anzahl; FD → Besetzungswahrscheinlichkeit."
+    },
 
-      {
-      section: "Fermi-Dirac",
-      text: "Bei <span class=\"math\">E=E<sub>F</sub></span> gilt stets <span class=\"math\">f(E)=0,5</span>.",
+    /* =========================
+      Materialien: Si, Ge, GaAs (qualitativ)
+    ========================= */
+
+    {
+      section: "Materialien",
+      text: "Silizium (Si) ist das Standardmaterial der Mikroelektronik, weil es technologisch sehr gut beherrscht wird.",
       correct: true,
-      explanation: "Unabhängig von der Temperatur ist die Besetzungswahrscheinlichkeit dort 50 %."
-      },
+      explanation: "Si ist in der Fertigung gut verfügbar und es existiert eine ausgereifte Prozesskette (Oxid, Dotierung, Strukturierung).",
+      correction: "Merksatz: Si = Industrie-Standard."
+    },
+    {
+      section: "Materialien",
+      text: "Germanium (Ge) hat typischerweise eine kleinere Bandlücke als Silizium (Si).",
+      correct: true,
+      explanation: "Kleinere Bandlücke bedeutet: bei gleicher Temperatur werden leichter Elektron-Loch-Paare angeregt → größere intrinsische Trägerdichte (qualitativ).",
+      correction: "Merksatz: kleinere <span class=\"math\">E<sub>g</sub></span> → mehr thermische Träger."
+    },
+    {
+      section: "Materialien",
+      text: "GaAs ist für LEDs (qualitativ) besser geeignet als Si, weil direkte Rekombination wahrscheinlicher ist.",
+      correct: true,
+      explanation: "Bei direkter Bandlücke kann ein Elektron im Leitungsband direkt mit einem Loch rekombinieren und ein Photon emittieren. Bei indirekter Bandlücke ist meist zusätzlich ein Phonon nötig → ineffizient.",
+      correction: "Merksatz: direkt → gut für Licht."
+    },
+    {
+      section: "Materialien",
+      text: "Ein indirekter Halbleiter kann prinzipiell überhaupt kein Licht emittieren.",
+      correct: false,
+      explanation: "Emission ist möglich, aber deutlich ineffizient, weil für Impulserhaltung typischerweise ein Phonon beteiligt sein muss.",
+      correction: "Korrektur: indirekt emittiert prinzipiell, aber ineffizient."
+    },
 
-      /* =========================
-        INTRINSISCH
-      ========================= */
+    /* =========================
+      Fermi-Dirac + Boltzmann
+    ========================= */
 
-      {
+    {
+      section: "Fermi-Dirac",
+      text: "Die Fermi-Dirac-Verteilung lautet \\( f(E)=\\frac{1}{1+\\exp\\left(\\frac{E-E_F}{kT}\\right)} \\) und beschreibt die Besetzungswahrscheinlichkeit.",
+      correct: true,
+      explanation: "Die Verteilung gibt die Wahrscheinlichkeit an, dass ein Zustand der Energie \\(E\\) besetzt ist. Bei \\(T=0\\,K\\) ist sie eine Stufenfunktion: unterhalb \\(E_F\\) ist \\(f(E)=1\\) (100% besetzt), oberhalb \\(E_F\\) ist \\(f(E)=0\\) (leer).",
+      correction: "Merksatz: \\(E=E_F\\Rightarrow f(E)=0{,}5\\)."
+    },
+    {
+      section: "Fermi-Dirac",
+      text: "Bei <span class=\"math\">T=0 K</span> gilt: Für <span class=\"math\">E&lt;E<sub>F</sub></span> ist <span class=\"math\">f(E)=1</span> und für <span class=\"math\">E&gt;E<sub>F</sub></span> ist <span class=\"math\">f(E)=0</span>.",
+      correct: true,
+      explanation: "Bei 0 K ist die FD-Verteilung eine Stufenfunktion: Unterhalb des Fermi-Niveaus sind Zustände sicher besetzt (100%), oberhalb sicher leer (0%).",
+      correction: "Merksatz: 0 K → scharfe Stufe bei <span class=\"math\">E<sub>F</sub></span>."
+    },
+    {
+      section: "Fermi-Dirac",
+      text: "Bei <span class=\"math\">E=E<sub>F</sub></span> gilt stets <span class=\"math\">f(E)=0,5</span> (unabhängig von <span class=\"math\">T</span>).",
+      correct: true,
+      explanation: "Setzt man <span class=\"math\">E=E<sub>F</sub></span> in die FD-Formel ein, wird der Exponent 0 und <span class=\"math\">f=1/(1+1)=0,5</span>.",
+      correction: "Merksatz: <span class=\"math\">E=E<sub>F</sub></span> → 50%."
+    },
+    {
+      section: "Boltzmann-Näherung",
+      text: "Die Boltzmann-Näherung bedeutet vereinfacht: <span class=\"math\">f(E)≈exp(−(E−E<sub>F</sub>)/(kT))</span> für nicht-entartete Halbleiter.",
+      correct: true,
+      explanation: "Wenn der Exponent groß und positiv ist (typisch im Halbleiter weit vom Fermi-Niveau), wird die FD-Verteilung sehr klein und lässt sich exponentiell approximieren.",
+      correction: "Merksatz: nicht-entartet → exponentielle Näherung."
+    },
+    {
+      section: "Boltzmann-Näherung",
+      text: "Die Boltzmann-Näherung ist immer gültig, auch in Metallen.",
+      correct: false,
+      explanation: "In Metallen und entarteten Halbleitern ist <span class=\"math\">f(E)</span> nahe <span class=\"math\">E<sub>F</sub></span> nicht klein. Dann muss man die volle Fermi-Dirac-Form verwenden.",
+      correction: "Korrektur: Boltzmann gilt für nicht-entartete Fälle (kleine Besetzung/weit weg von <span class=\"math\">E<sub>F</sub></span>)."
+    },
+
+    /* =========================
+      Ladungsträgerdichten, intrinsisch, Dotierung, MWG
+    ========================= */
+
+    {
       section: "Intrinsisch",
       text: "Im intrinsischen Halbleiter gilt <span class=\"math\">n=p=n<sub>i</sub></span>.",
       correct: true,
-      explanation: "Elektronen und Löcher entstehen paarweise."
-      },
-
-      {
+      explanation: "Thermische Anregung erzeugt Elektron-Loch-Paare; daher steigen n und p gemeinsam und bleiben gleich.",
+      correction: "Merksatz: intrinsisch = keine Dotierung → <span class=\"math\">n=p</span>."
+    },
+    {
       section: "Intrinsisch",
-      text: "Die intrinsische Ladungsträgerdichte <span class=\"math\">n<sub>i</sub></span> steigt exponentiell mit der Temperatur.",
+      text: "Die intrinsische Trägerdichte <span class=\"math\">n<sub>i</sub></span> steigt stark mit der Temperatur.",
       correct: true,
-      explanation: "Thermische Anregung über <span class=\"math\">E<sub>g</sub></span> folgt einem Exponentialgesetz."
-      },
-
-      {
-      section: "Intrinsisch",
-      text: "Im intrinsischen Halbleiter liegt <span class=\"math\">E<sub>F</sub></span> nahe dem Leitungsband.",
-      correct: false,
-      explanation: "Im intrinsischen Material liegt <span class=\"math\">E<sub>F</sub></span> nahe der Bandmitte."
-      },
-
-      /* =========================
-        MASSENWIRKUNGSGESETZ
-      ========================= */
-
-      {
+      explanation: "Weil Elektronen über die Bandlücke angeregt werden müssen, ergibt sich (qualitativ) eine starke, meist exponentielle Temperaturabhängigkeit.",
+      correction: "Merksatz: Halbleiter „leben“ im Exponentialgesetz."
+    },
+    {
+      section: "Dotierung",
+      text: "n-Dotierung verschiebt das Fermi-Niveau <span class=\"math\">E<sub>F</sub></span> in Richtung Leitungsband.",
+      correct: true,
+      explanation: "Donatoren liefern zusätzliche Elektronen. Damit muss die Statistik (Besetzung) so passen, dass mehr Elektronen verfügbar sind → <span class=\"math\">E<sub>F</sub></span> wandert nach oben.",
+      correction: "Merksatz: n-Typ → <span class=\"math\">E<sub>F</sub></span> hoch."
+    },
+    {
+      section: "Dotierung",
+      text: "p-Dotierung verschiebt das Fermi-Niveau <span class=\"math\">E<sub>F</sub></span> in Richtung Valenzband.",
+      correct: true,
+      explanation: "Akzeptoren fördern Lochleitung (bzw. nehmen Elektronen auf). Das entspricht einer Verschiebung von <span class=\"math\">E<sub>F</sub></span> nach unten.",
+      correction: "Merksatz: p-Typ → <span class=\"math\">E<sub>F</sub></span> runter."
+    },
+    {
       section: "Massenwirkungsgesetz",
       text: "Im thermischen Gleichgewicht gilt <span class=\"math\">n·p = n<sub>i</sub><sup>2</sup></span>.",
       correct: true,
-      explanation: "Das ist das Massenwirkungsgesetz."
-      },
-
-      {
+      explanation: "Das Massenwirkungsgesetz koppelt Mehrheit- und Minderheitsträger: Erhöht man n (z.B. n-Dotierung), sinkt p so, dass das Produkt konstant bleibt.",
+      correction: "Merksatz: Gleichgewicht → Produkt konstant."
+    },
+    {
       section: "Massenwirkungsgesetz",
-      text: "Wenn <span class=\"math\">n</span> steigt, steigt auch <span class=\"math\">p</span>.",
+      text: "Wenn <span class=\"math\">n</span> durch Dotierung stark steigt, wird <span class=\"math\">p</span> automatisch ebenfalls größer.",
       correct: false,
-      explanation: "Da <span class=\"math\">n·p</span> konstant ist, sinkt p.",
-      correction: "Erhöht man n, muss p entsprechend kleiner werden."
-      },
-
-      /* =========================
-        DRIFT
-      ========================= */
-
-      {
-      section: "Drift",
-      text: "Die Driftstromdichte lautet <span class=\"math\">J = q·n·μ·E</span>.",
-      correct: true,
-      explanation: "Drift entsteht durch ein elektrisches Feld."
-      },
-
-      {
-      section: "Drift",
-      text: "Ohne elektrisches Feld ist <span class=\"math\">J<sub>Drift</sub></span> gleich null.",
-      correct: true,
-      explanation: "Drift benötigt ein Feld."
-      },
-
-      {
-      section: "Drift",
-      text: "Eine größere Mobilität <span class=\"math\">μ</span> führt zu kleinerem Strom.",
+      explanation: "Im Gleichgewicht gilt <span class=\"math\">n·p=n<sub>i</sub><sup>2</sup></span>. Steigt n, muss p entsprechend sinken. Genau das macht Minderheitsträger oft sehr klein, aber nicht null.",
+      correction: "Korrektur: Steigt <span class=\"math\">n</span>, dann sinkt <span class=\"math\">p</span>."
+    },
+    {
+      section: "Massenwirkungsgesetz",
+      text: "Minderheitsträger sind im dotierten Halbleiter exakt null.",
       correct: false,
-      explanation: "Größere μ erhöht den Driftstrom.",
-      correction: "Je größer μ, desto größer J bei gleichem Feld."
-      },
+      explanation: "Thermische Generation sorgt immer für eine endliche (wenn auch sehr kleine) Minderheitsträgerdichte. Außerdem sind Minderheitsträger zentral für pn-Übergänge und Diodenwirkung.",
+      correction: "Korrektur: Minderheitsträger sind klein, aber nicht null."
+    },
 
-      /* =========================
-        DIFFUSION
-      ========================= */
+    /* =========================
+      Drift, Mobilität, effektive Masse, Einstein-Relation
+    ========================= */
 
-      {
+    {
+      section: "Mobilität",
+      text: "Die Mobilität ist definiert als <span class=\"math\">μ = v<sub>d</sub>/E</span> (Driftgeschwindigkeit pro Feldstärke).",
+      correct: true,
+      explanation: "Mobilität quantifiziert, wie stark Träger auf ein elektrisches Feld reagieren: großes <span class=\"math\">μ</span> → große Driftgeschwindigkeit bei gleichem <span class=\"math\">E</span>.",
+      correction: "Merksatz: <span class=\"math\">v<sub>d</sub>=μE</span>."
+    },
+    {
+      section: "Drift",
+      text: "Die Driftstromdichte (Elektronenanteil) kann geschrieben werden als <span class=\"math\">J<sub>Drift</sub>=q·n·μ<sub>n</sub>·E</span>.",
+      correct: true,
+      explanation: "Mehr Trägerdichte n oder höhere Mobilität <span class=\"math\">μ</span> führt zu größerem Driftstrom bei gleicher Feldstärke.",
+      correction: "Merksatz: Drift ∝ Trägerdichte × Mobilität × Feld."
+    },
+    {
+      section: "Drift",
+      text: "Ohne elektrisches Feld gilt <span class=\"math\">J<sub>Drift</sub>=0</span>.",
+      correct: true,
+      explanation: "Drift ist feldgetriebene Bewegung. Ohne Feld gibt es keinen Driftanteil (Diffusion kann trotzdem existieren).",
+      correction: "Merksatz: Drift braucht <span class=\"math\">E</span>."
+    },
+    {
+      section: "Mobilität",
+      text: "Eine größere Mobilität <span class=\"math\">μ</span> führt zu kleinerem Driftstrom.",
+      correct: false,
+      explanation: "Aus <span class=\"math\">J<sub>Drift</sub>=q·n·μ·E</span> folgt direkt: größeres <span class=\"math\">μ</span> → größeres <span class=\"math\">J<sub>Drift</sub></span>, sofern n und E gleich bleiben.",
+      correction: "Korrektur: größeres <span class=\"math\">μ</span> → größeres <span class=\"math\">J<sub>Drift</sub></span>."
+    },
+    {
+      section: "Effektive Masse",
+      text: "Die effektive Masse <span class=\"math\">m*</span> hängt mit der Bandkrümmung im <span class=\"math\">E(k)</span>-Diagramm zusammen.",
+      correct: true,
+      explanation: "Qualitativ: starke Krümmung (\"steiles\" Parabelprofil) entspricht kleiner effektiver Masse, schwache Krümmung entspricht großer effektiver Masse. Das beeinflusst Trägerdynamik und Mobilität.",
+      correction: "Merksatz: Krümmung ↔ effektive Masse."
+    },
+    {
+      section: "Effektive Masse",
+      text: "Eine große effektive Masse <span class=\"math\">m*</span> bedeutet eine starke (große) Bandkrümmung.",
+      correct: false,
+      explanation: "Große effektive Masse entspricht typischerweise kleiner Bandkrümmung (\"flache\" Parabel). Kleine effektive Masse entspricht großer Krümmung.",
+      correction: "Korrektur: große <span class=\"math\">m*</span> ↔ kleine Krümmung."
+    },
+    {
+      section: "Einstein-Relation",
+      text: "Die Einstein-Relation verknüpft Diffusion und Mobilität: <span class=\"math\">D/μ = kT/q</span> (nicht-entarteter Halbleiter).",
+      correct: true,
+      explanation: "Damit sind Drift und Diffusion nicht völlig unabhängig: Beide beruhen auf derselben thermischen Bewegung und denselben Streuprozessen (im Modell).",
+      correction: "Merksatz: <span class=\"math\">D = μ·kT/q</span>."
+    },
+    {
+      section: "Einstein-Relation",
+      text: "Wenn <span class=\"math\">T</span> steigt, dann steigt nach <span class=\"math\">D=μ·kT/q</span> automatisch auch <span class=\"math\">μ</span>.",
+      correct: false,
+      explanation: "Die Einstein-Relation sagt nicht, dass μ mit T steigen muss. μ wird stark durch Streuung beeinflusst (z.B. Phononenstreuung), und kann mit T auch sinken.",
+      correction: "Korrektur: <span class=\"math\">D</span> hängt über <span class=\"math\">kT</span> an T; μ ist zusätzlich streuungsabhängig."
+    },
+    {
+      section: "Mobilität",
+      text: "Mobilität wird durch Streuprozesse (Phononen, Defekte, Dotieratome) begrenzt.",
+      correct: true,
+      explanation: "Streuung verhindert, dass Träger unbegrenzt beschleunigen. Mehr Streuung bedeutet meist kleinere mittlere Driftgeschwindigkeit und damit kleinere Mobilität.",
+      correction: "Merksatz: mehr Streuung → kleinere <span class=\"math\">μ</span>."
+    },
+
+    /* =========================
+      Diffusion, Gesamtstrom, Gleichgewicht
+    ========================= */
+
+    {
       section: "Diffusion",
-      text: "Diffusion entsteht durch Konzentrationsgradienten.",
+      text: "Diffusion kann auch ohne elektrisches Feld auftreten.",
       correct: true,
-      explanation: "Träger bewegen sich statistisch vom hohen zum niedrigen Konzentrationsbereich."
-      },
-
-      {
-      section: "Diffusion",
-      text: "Diffusion benötigt ein elektrisches Feld.",
-      correct: false,
-      explanation: "Diffusion ist feldunabhängig."
-      },
-
-      {
+      explanation: "Ein Konzentrationsgradient reicht aus: Träger bewegen sich statistisch vom Bereich hoher Konzentration in Richtung niedriger Konzentration.",
+      correction: "Merksatz: Diffusion braucht keinen Feldantrieb."
+    },
+    {
       section: "Gesamtstrom",
-      text: "Es gilt <span class=\"math\">J<sub>ges</sub>=J<sub>Drift</sub>+J<sub>Diff</sub></span>.",
+      text: "Allgemein gilt <span class=\"math\">J<sub>ges</sub>=J<sub>Drift</sub>+J<sub>Diff</sub></span>.",
       correct: true,
-      explanation: "Gesamtstrom ist Summe beider Beiträge."
-      },
-
-      {
+      explanation: "In vielen Situationen sind beide Mechanismen gleichzeitig aktiv. In Gleichgewichtssituationen kompensieren sie sich oft.",
+      correction: "Merksatz: Summe der Beiträge ergibt den Gesamtstrom."
+    },
+    {
       section: "Gleichgewicht",
-      text: "Im thermischen Gleichgewicht gilt <span class=\"math\">J<sub>ges</sub>=0</span>.",
+      text: "Im thermischen Gleichgewicht gilt <span class=\"math\">J<sub>ges</sub>=0</span>, obwohl sich Ladungsträger bewegen.",
       correct: true,
-      explanation: "Drift und Diffusion kompensieren sich."
-      },
-
-      /* =========================
-        PN-ÜBERGANG
-      ========================= */
-
-      {
-      section: "pn-Übergang",
-      text: "Im Gleichgewicht ist <span class=\"math\">E<sub>F</sub></span> über den gesamten pn-Übergang konstant.",
-      correct: true,
-      explanation: "Fermi-Niveau ist im Gleichgewicht überall gleich."
-      },
-
-      {
-      section: "pn-Übergang",
-      text: "Die Raumladungszone enthält viele freie Elektronen.",
+      explanation: "Gleichgewicht heißt: kein Nettotransport. Drift und Diffusion sind betragsgleich entgegengesetzt, sodass sich die Gesamtstromdichte aufhebt.",
+      correction: "Merksatz: Bewegung ja, Nettostrom nein."
+    },
+    {
+      section: "Gleichgewicht",
+      text: "Im thermischen Gleichgewicht gilt <span class=\"math\">J<sub>Drift</sub> = J<sub>Diff</sub</span>.",
       correct: false,
-      explanation: "Dort befinden sich kaum freie Träger.",
-      correction: "Es bleiben ortsfeste Ionen zurück."
-      },
+      explanation: "Die Beträge sind gleich, aber die Richtung ist entgegengesetzt. Daher gilt <span class=\"math\">J<sub>Drift</sub> = -J<sub>Diff</sub></span> und damit <span class=\"math\">J<sub>ges</sub>=0</span>.",
+      correction: "Korrektur: <span class=\"math\">J<sub>Drift</sub> = -J<sub>Diff</sub></span>."
+    },
 
-      {
+    /* =========================
+      pn-Übergang: Raumladungszone, Feld, Banddiagramm
+    ========================= */
+
+    {
       section: "pn-Übergang",
-      text: "Das interne elektrische Feld wirkt der Diffusion entgegen.",
+      text: "Beim Kontakt eines p- und n-Gebiets diffundieren Elektronen vom n- ins p-Gebiet und Löcher vom p- ins n-Gebiet.",
       correct: true,
-      explanation: "Es erzeugt einen entgegengesetzten Driftstrom."
-      },
-
-      /* =========================
-        DIODE
-      ========================= */
-
-      {
-      section: "Diode",
-      text: "Eine Vorwärtsspannung senkt die Potentialbarriere.",
-      correct: true,
-      explanation: "Dadurch steigt der Strom exponentiell an."
-      },
-
-      {
-      section: "Diode",
-      text: "Der Sperrstrom wird durch Mehrheitsträger verursacht.",
+      explanation: "Ursache ist der Konzentrationsgradient: Mehrheitsträger wandern in die jeweils andere Seite und rekombinieren teilweise nahe der Grenzfläche.",
+      correction: "Merksatz: Elektronen n→p, Löcher p→n."
+    },
+    {
+      section: "pn-Übergang",
+      text: "In der Raumladungszone gibt es viele freie Ladungsträger.",
       correct: false,
-      explanation: "Sperrstrom hängt an Minderheitsträgern.",
-      correction: "Mehrheitsträger sind gesperrt."
-      },
-
-      /* =========================
-        OPTOELEKTRONIK
-      ========================= */
-
-      {
-      section: "Optoelektronik",
-      text: "Die Photonenenergie einer LED entspricht ungefähr <span class=\"math\">E<sub>g</sub></span>.",
+      explanation: "In der Raumladungszone sind freie Träger stark reduziert, weil sie diffundiert und rekombiniert sind. Übrig bleiben ortsfeste Donator-/Akzeptorionen, die das interne Feld erzeugen.",
+      correction: "Korrektur: RLZ ≈ frei trägerarm, dafür ortsfeste Ionen."
+    },
+    {
+      section: "pn-Übergang",
+      text: "Das interne elektrische Feld im pn-Übergang entsteht durch ortsfeste Ionen in der Raumladungszone.",
       correct: true,
-      explanation: "Rekombination setzt Energie ~ Bandlücke frei."
-      },
-
-      {
-      section: "Optoelektronik",
-      text: "Ein direkter Halbleiter eignet sich besser für LEDs als ein indirekter.",
+      explanation: "Auf der n-Seite bleiben positiv geladene Donatorionen zurück, auf der p-Seite negative Akzeptorionen. Das erzeugt ein Feld, das der weiteren Diffusion entgegenwirkt.",
+      correction: "Merksatz: RLZ-Ionen → internes Feld."
+    },
+    {
+      section: "pn-Übergang",
+      text: "Im thermischen Gleichgewicht ist das Fermi-Niveau <span class=\"math\">E<sub>F</sub></span> über den gesamten pn-Übergang konstant.",
       correct: true,
-      explanation: "Direkte Rekombination ohne Phonon."
-      },
-
-      {
-      section: "Optoelektronik",
-      text: "In einer Photodiode erzeugt Licht Elektron-Loch-Paare.",
+      explanation: "Gleichgewicht bedeutet ein einheitliches chemisches Potential. Deshalb ist <span class=\"math\">E<sub>F</sub></span> flach; die Bandkanten biegen sich, nicht das Fermi-Niveau.",
+      correction: "Merksatz: Gleichgewicht → <span class=\"math\">E<sub>F</sub></span> konstant."
+    },
+    {
+      section: "Banddiagramm",
+      text: "Bandverbiegung in einem pn-Übergang ist die energetische Darstellung des internen elektrischen Feldes.",
       correct: true,
-      explanation: "Innerer Photoeffekt."
-      }
+      explanation: "Ein elektrisches Feld entspricht einem Potentialgradienten. Im Banddiagramm zeigt sich das als räumlich veränderte Bandkanten.",
+      correction: "Merksatz: Feld ↔ Potential ↔ Bandverbiegung."
+    },
 
-  
+    /* =========================
+      Diode: Vorwärts/Rückwärts, Kennlinie, Schwellspannung
+    ========================= */
+
+    {
+      section: "Diode",
+      text: "Bei Vorwärtsspannung wird die Potentialbarriere kleiner und der Strom steigt stark an.",
+      correct: true,
+      explanation: "Vorwärtsspannung unterstützt die Injektion von Mehrheitsträgern über die Grenzfläche. Dadurch dominiert Diffusion und der Strom nimmt stark zu (typisch exponentiell im Idealmodell).",
+      correction: "Merksatz: Vorwärts → Barriere runter → Strom hoch."
+    },
+    {
+      section: "Diode",
+      text: "Bei Rückwärtsspannung wird die Raumladungszone schmaler.",
+      correct: false,
+      explanation: "Rückwärtsspannung erhöht die Barriere und vergrößert typischerweise die Raumladungszone. Dadurch werden Mehrheitsträger stärker zurückgehalten.",
+      correction: "Korrektur: Rückwärts → RLZ wird breiter."
+    },
+    {
+      section: "Diode",
+      text: "Der Sperrstrom einer Diode wird im Wesentlichen durch Minderheitsträger bestimmt.",
+      correct: true,
+      explanation: "Im Sperrbetrieb werden Mehrheitsträger blockiert. Der kleine verbleibende Strom hängt an Minderheitsträgern und Generation/Rekombination in der Grenzregion.",
+      correction: "Merksatz: Sperrstrom ↔ Minderheitsträger."
+    },
+    {
+      section: "Diode",
+      text: "Die Schwellspannung ist eine harte physikalische Grenze, unterhalb der kein Strom fließt.",
+      correct: false,
+      explanation: "In der Realität fließt schon darunter ein kleiner Strom, und die Kennlinie ist kontinuierlich. „Schwellspannung“ ist eine praktische Ingenieur-Näherung (vom Material und der Temperatur beeinflusst).",
+      correction: "Korrektur: Schwellspannung ist keine harte Kante, sondern ein praktischer Richtwert."
+    },
+    {
+      section: "Diode (Kennlinie)",
+      text: "Im idealisierten Modell steigt der Vorwärtsstrom einer Diode näherungsweise exponentiell mit der angelegten Spannung.",
+      correct: true,
+      explanation: "Das ist die typische Diodenkennlinie: Kleine Spannungsänderungen können große Stromänderungen erzeugen. (Details/Parameter hängen vom Modell ab.)",
+      correction: "Merksatz: ideal: exponentieller Anstieg."
+    },
+
+    /* =========================
+      Optoelektronik: LED, Photodiode
+    ========================= */
+
+    {
+      section: "Optoelektronik",
+      text: "Bei einer LED entspricht die Photonenenergie näherungsweise der Bandlücke <span class=\"math\">E<sub>g</sub></span>.",
+      correct: true,
+      explanation: "Bei Rekombination kann Energie ~ <span class=\"math\">E<sub>g</sub></span> als Photon frei werden. Daher hängt die Emissionsfarbe von <span class=\"math\">E<sub>g</sub></span> ab (qualitativ).",
+      correction: "Merksatz: LED-Farbe ↔ <span class=\"math\">E<sub>g</sub></span>."
+    },
+    {
+      section: "Optoelektronik",
+      text: "In einer Photodiode erzeugt Licht Elektron-Loch-Paare und das interne Feld trennt sie.",
+      correct: true,
+      explanation: "Photonen regen Elektronen über die Bandlücke an. Das Feld in der Raumladungszone separiert Elektronen und Löcher → messbarer Photostrom.",
+      correction: "Merksatz: Licht erzeugt Paare, Feld trennt Paare."
+    },
+
+    /* =========================
+      Jetzt: Erweiterungsblock — viele weitere Themen (eff. Masse, k-Raum, etc.)
+      (Damit wir auf 80 kommen und wirklich „alles“ drin ist)
+    ========================= */
+
+    {
+      section: "Bandstruktur",
+      text: "Die Einteilung Metall/Halbleiter/Isolator hängt im Bandmodell wesentlich davon ab, ob bei <span class=\"math\">E<sub>F</sub></span> freie Zustände erreichbar sind.",
+      correct: true,
+      explanation: "Metalle haben Zustände bei <span class=\"math\">E<sub>F</sub></span>. Halbleiter/Isolatoren besitzen eine Bandlücke; bei endlicher Temperatur können aber Träger angeregt werden (bei Isolatoren viel weniger).",
+      correction: "Merksatz: Leitfähigkeit = Zustände + Besetzung."
+    },
+    {
+      section: "Bandstruktur",
+      text: "Für die elektrische Leitfähigkeit ist nur entscheidend, ob Zustände existieren – nicht, ob sie besetzt sind.",
+      correct: false,
+      explanation: "Strom benötigt bewegliche Träger. Zustände allein reichen nicht: Es muss auch eine relevante Besetzung/Leerstellen geben (Elektronen/Löcher), v.a. nahe Bandkanten bzw. <span class=\"math\">E<sub>F</sub></span>.",
+      correction: "Korrektur: Existenz + Besetzung bestimmen Transport."
+    },
+    {
+      section: "k-Raum / Bragg",
+      text: "Bragg-Reflexion kann auftreten, wenn sich der Impuls (Wellenvektor) um einen reziproken Gittervektor <span class=\"math\">G</span> ändert.",
+      correct: true,
+      explanation: "Im Kristall sind Streuprozesse am Gitter so, dass Impulsänderungen um <span class=\"math\">G</span> „gitterverträglich“ sind. Das ist eng verbunden mit Zonenrändern und Bandlücken.",
+      correction: "Merksatz: Kristall erlaubt Impulsänderung um <span class=\"math\">G</span>."
+    },
+    {
+      section: "Zustandsdichte",
+      text: "Spin-Entartung bedeutet: Zu einem Zustand gehören typischerweise zwei Spinzustände → doppelte Zustandsanzahl.",
+      correct: true,
+      explanation: "Ohne Magnetfeld sind Spin-Up und Spin-Down energetisch gleich. Daher zählt man meist einen Faktor 2 in der Zustandszahl/DOS.",
+      correction: "Merksatz: Spin verdoppelt oft die DOS."
+    },
+    {
+      section: "Dotierung",
+      text: "Donatoren erzeugen in einem n-Typ-Halbleiter ein Niveau nahe dem Leitungsband (Donatorniveau).",
+      correct: true,
+      explanation: "Donatoren geben relativ leicht ein Elektron ab. Dadurch können Elektronen schon bei moderaten Temperaturen ins Leitungsband gelangen (qualitativ).",
+      correction: "Merksatz: Donator → Elektronenbereitstellung."
+    },
+    {
+      section: "Dotierung",
+      text: "Akzeptoren erzeugen in einem p-Typ-Halbleiter ein Niveau nahe dem Valenzband (Akzeptorniveau).",
+      correct: true,
+      explanation: "Akzeptoren können ein Elektron aufnehmen, wodurch im Valenzband ein Loch entsteht. Das unterstützt Lochleitung (qualitativ).",
+      correction: "Merksatz: Akzeptor → Lochbereitstellung."
+    },
+    {
+      section: "Ladungsträger",
+      text: "Ein Loch kann als Quasiteilchen betrachtet werden, das sich wie eine positive Ladung bewegt.",
+      correct: true,
+      explanation: "Wenn im Valenzband ein Elektron fehlt, kann sich dieser 'Fehlzustand' durch Elektronenbewegung effektiv als beweglicher positiver Träger beschreiben lassen.",
+      correction: "Merksatz: Loch = fehlendes Elektron im Valenzband."
+    },
+    {
+      section: "Mobilität",
+      text: "Eine stärkere Dotierung kann die Mobilität verringern, weil zusätzliche Streuzentren entstehen.",
+      correct: true,
+      explanation: "Dotieratome stören das ideale Gitterpotential und können Träger streuen. Mehr Streuung → geringere mittlere Driftgeschwindigkeit → kleinere Mobilität (qualitativ).",
+      correction: "Merksatz: Dotierung ↑ → Streuung ↑ → μ oft ↓."
+    },
+    {
+      section: "Einstein-Relation",
+      text: "Aus <span class=\"math\">D=μ·kT/q</span> folgt: Wenn <span class=\"math\">μ</span> groß ist, ist bei gleicher Temperatur auch <span class=\"math\">D</span> groß.",
+      correct: true,
+      explanation: "Ein hoher Mobilitätswert bedeutet, dass Träger „leicht beweglich“ sind. Das zeigt sich im Modell auch in einer größeren Diffusionskonstante.",
+      correction: "Merksatz: Mobilität und Diffusion hängen zusammen."
+    },
+    {
+      section: "Drift",
+      text: "Für beide Trägerarten kann man schreiben: <span class=\"math\">J<sub>Drift</sub>=q·(n·μ<sub>n</sub>+p·μ<sub>p</sub>)·E</span>.",
+      correct: true,
+      explanation: "Elektronen- und Lochbeitrag addieren sich zur Driftstromdichte. In n-Typ dominiert oft der Elektronenanteil, in p-Typ der Lochanteil.",
+      correction: "Merksatz: Drift = Summe der Beiträge."
+    },
+    {
+      section: "Diffusion",
+      text: "Ein Konzentrationsgradient von Elektronen führt zu einem Elektronendiffusionsstrom.",
+      correct: true,
+      explanation: "Mehr Elektronen wandern statistisch von hoher zu niedriger Konzentration. Das kann auch ohne Feld einen Stromanteil erzeugen.",
+      correction: "Merksatz: Gradienten treiben Diffusion."
+    },
+    {
+      section: "Gleichgewicht",
+      text: "Wenn <span class=\"math\">J<sub>ges</sub>=0</span>, dann sind Drift und Diffusion einzeln zwingend null.",
+      correct: false,
+      explanation: "Im Gleichgewicht kompensieren sich Drift und Diffusion oft gegenseitig: beide können ungleich null sein, aber die Summe wird null.",
+      correction: "Korrektur: möglich ist <span class=\"math\">J<sub>Drift</sub>≠0</span> und <span class=\"math\">J<sub>Diff</sub>≠0</span>, aber <span class=\"math\">J<sub>ges</sub>=0</span>."
+    },
+    {
+      section: "Banddiagramm",
+      text: "Im Banddiagramm eines pn-Übergangs sind <span class=\"math\">E<sub>C</sub></span> und <span class=\"math\">E<sub>V</sub></span> gebogen, während <span class=\"math\">E<sub>F</sub></span> im Gleichgewicht flach ist.",
+      correct: true,
+      explanation: "Die Bänder biegen sich wegen des internen Potentials. Das Fermi-Niveau bleibt im Gleichgewicht konstant, weil es das chemische Potential beschreibt.",
+      correction: "Merksatz: gebogene Bänder, flaches <span class=\"math\">E<sub>F</sub></span>."
+    },
+    {
+      section: "Materialien",
+      text: "Eine kleinere Bandlücke <span class=\"math\">E<sub>g</sub></span> führt bei gleicher Temperatur zu mehr thermisch erzeugten Trägern (qualitativ).",
+      correct: true,
+      explanation: "Die thermische Anregung über die Bandlücke ist umso leichter, je kleiner <span class=\"math\">E<sub>g</sub></span> ist. Daher steigt <span class=\"math\">n<sub>i</sub></span> typischerweise stark bei kleinerer Bandlücke.",
+      correction: "Merksatz: <span class=\"math\">E<sub>g</sub></span> klein → <span class=\"math\">n<sub>i</sub></span> groß (bei gleicher T)."
+    },
+    {
+      section: "Quantenmechanik",
+      text: "Randbedingungen (z.B. bei einer stehenden Welle) können dazu führen, dass nur bestimmte Wellenlängen und damit nur bestimmte Energien erlaubt sind.",
+      correct: true,
+      explanation: "Das ist der Kern der Quantisierung: Wenn nur bestimmte Wellenformen passen, sind auch Impuls/Wellenvektor und daraus Energie diskret bzw. in Bändern organisiert.",
+      correction: "Merksatz: Randbedingungen → Quantisierung."
+    },
+
+    /* =========================
+      Bis hier sind ~45 Fragen. Jetzt ergänze ich den Rest (bis 80) mit mehr „Formel-Fokus“,
+      ohne unnötig exotisch zu werden.
+    ========================= */
+
+    {
+      section: "Fermi-Dirac",
+      text: "Die Aussage „Fermi-Dirac gibt an, wie viele Zustände besetzt sind“ ist präziser als: FD gibt an, wie viele Zustände existieren.",
+      correct: true,
+      explanation: "FD bezieht sich auf Besetzung (Wahrscheinlichkeit). Wie viele Zustände existieren, kommt aus der Zustandsdichte. Zusammen ergibt sich dann „wie viele sind tatsächlich besetzt“. ",
+      correction: "Merksatz: FD = Besetzung, DOS = Existenz."
+    },
+    {
+      section: "Fermi-Dirac",
+      text: "Wenn <span class=\"math\">E</span> deutlich über <span class=\"math\">E<sub>F</sub></span> liegt, dann ist <span class=\"math\">f(E)</span> klein.",
+      correct: true,
+      explanation: "Dann ist der Exponent <span class=\"math\">(E−E<sub>F</sub>)/(kT)</span> groß und positiv → <span class=\"math\">exp(...)</span> groß → Nenner groß → <span class=\"math\">f(E)</span> klein.",
+      correction: "Merksatz: weit über EF → fast leer."
+    },
+    {
+      section: "Fermi-Dirac",
+      text: "Wenn <span class=\"math\">E</span> deutlich unter <span class=\"math\">E<sub>F</sub></span> liegt, dann ist <span class=\"math\">f(E)</span> nahe 0.",
+      correct: false,
+      explanation: "Unterhalb <span class=\"math\">E<sub>F</sub></span> ist die Besetzungswahrscheinlichkeit hoch, oft nahe 1 (besonders bei tiefen Temperaturen).",
+      correction: "Korrektur: weit unter EF → fast voll (f≈1)."
+    },
+    {
+      section: "Boltzmann-Näherung",
+      text: "Die Boltzmann-Näherung führt typischerweise zu exponentiellen Abhängigkeiten bei Trägerdichten (z.B. mit <span class=\"math\">exp(−E/(kT))</span>).",
+      correct: true,
+      explanation: "Nicht-entartete Halbleiter haben oft kleine Besetzungen, die sich gut exponentiell beschreiben lassen. Daher tauchen Exponentialgesetze häufig in Halbleiterrechnungen auf.",
+      correction: "Merksatz: Halbleiter → Exponentialfunktionen überall."
+    },
+    {
+      section: "Effektive Masse",
+      text: "Eine kleinere effektive Masse <span class=\"math\">m*</span> bedeutet, dass Träger bei gleichem Feld „leichter“ beschleunigt werden (qualitativ).",
+      correct: true,
+      explanation: "Im Modell reagiert ein „leichteres“ Teilchen stärker auf ein Feld. Das ist ein Grund, warum Materialien/Bänder mit kleinerer <span class=\"math\">m*</span> oft höhere Mobilitäten ermöglichen.",
+      correction: "Merksatz: kleines <span class=\"math\">m*</span> → dynamisch „beweglicher“."
+    },
+    {
+      section: "Mobilität",
+      text: "Die Größe <span class=\"math\">μ</span> ist ein Material-/Prozessparameter und hängt z.B. von Streuung und Temperatur ab.",
+      correct: true,
+      explanation: "Mobilität ist nicht nur „eine Zahl aus dem Lehrbuch“: Dotierung, Defekte und Temperatur verändern Streuung und damit μ. Das ist praxisrelevant für Bauelementdesign.",
+      correction: "Merksatz: μ hängt von Streuung ab."
+    },
+    {
+      section: "Drift",
+      text: "Wenn <span class=\"math\">n</span> steigt (bei gleichem <span class=\"math\">E</span> und <span class=\"math\">μ</span>), steigt <span class=\"math\">J<sub>Drift</sub></span> proportional.",
+      correct: true,
+      explanation: "Aus <span class=\"math\">J<sub>Drift</sub>=q·n·μ·E</span> folgt direkte Proportionalität: doppelt so viele Träger → doppelte Driftstromdichte.",
+      correction: "Merksatz: Driftstrom ∝ Trägerdichte."
+    },
+    {
+      section: "Massenwirkungsgesetz",
+      text: "Bei n-Dotierung mit großem <span class=\"math\">n</span> ist <span class=\"math\">p=n<sub>i</sub><sup>2</sup>/n</span> (Gleichgewicht).",
+      correct: true,
+      explanation: "Das ist direktes Umstellen von <span class=\"math\">n·p=n<sub>i</sub><sup>2</sup></span>. So kann man Minderheitsträger schnell abschätzen.",
+      correction: "Merksatz: Minderheitsträger = <span class=\"math\">n<sub>i</sub><sup>2</sup>/Mehrheitsträger</span>."
+    },
+    {
+      section: "pn-Übergang",
+      text: "Die Raumladungszone bildet sich, weil diffundierende Träger an der Grenzfläche rekombinieren und ortsfeste Ionen zurücklassen.",
+      correct: true,
+      explanation: "Elektronen und Löcher rekombinieren, dadurch fehlen freie Träger nahe der Grenzfläche. Donator-/Akzeptorionen bleiben ortsfest geladen zurück → Feld entsteht.",
+      correction: "Merksatz: Diffusion + Rekombination → RLZ + Feld."
+    },
+    {
+      section: "Diode",
+      text: "Vorwärtsspannung reduziert die eingebaute Barriere, Rückwärtsspannung erhöht sie.",
+      correct: true,
+      explanation: "Das ist die qualitative Kernaussage für die Diode: Vorwärts erleichtert Injektion, Rückwärts sperrt stärker.",
+      correction: "Merksatz: Vorwärts öffnet, Rückwärts schließt."
+    },
+    {
+      section: "Optoelektronik",
+      text: "Absorption im Halbleiter ist möglich, wenn die Photonenenergie mindestens <span class=\"math\">E<sub>g</sub></span> beträgt (qualitativ).",
+      correct: true,
+      explanation: "Ein Elektron muss über die Bandlücke vom Valenz- ins Leitungsband gehoben werden. Ist die Photonenenergie kleiner als <span class=\"math\">E<sub>g</sub></span>, reicht sie dafür nicht aus (im einfachen Modell).",
+      correction: "Merksatz: <span class=\"math\">E<sub>ph</sub>≥E<sub>g</sub></span> für Anregung."
+    },
+
+    /* =========================
+      80er-Ziel: Jetzt noch 30 zusätzliche Aussagen, breit über die Themen gestreut
+    ========================= */
+
+    {
+      section: "Kristall & Gitter",
+      text: "Das periodische Gitterpotential ist der Grund, warum man erlaubte und verbotene Energiebereiche (Bänder/Bandlücken) erhält.",
+      correct: true,
+      explanation: "Im periodischen Potential entstehen an bestimmten k-Werten (z.B. Zonenrändern) Lösungen mit unterschiedlichen Energien → Bandlücke. Ohne Periodizität gäbe es freie Elektronen-Parabeln.",
+      correction: "Merksatz: Periodizität → Bandstruktur."
+    },
+    {
+      section: "Brillouin-Zone",
+      text: "Die 1. Brillouin-Zone ist (qualitativ) der fundamentale Bereich im k-Raum, weil Zustände außerhalb durch reziproke Gittervektoren zurückgefaltet werden können.",
+      correct: true,
+      explanation: "Durch Periodizität im reziproken Raum sind viele Beschreibungen modulo <span class=\"math\">G</span> äquivalent. Daher reicht es, k in der 1. Zone zu betrachten.",
+      correction: "Merksatz: k außerhalb → „zurückfalten“ in 1. Zone."
+    },
+    {
+      section: "k-Raum",
+      text: "Im Kristall ist der Impuls formal nicht wie im freien Raum erhalten, aber Änderungen um einen reziproken Gittervektor <span class=\"math\">G</span> sind gitterverträglich.",
+      correct: true,
+      explanation: "Das ist ein typischer Kristall-Effekt: das Gitter kann Impuls in Einheiten von <span class=\"math\">G</span> aufnehmen/abgeben. Das hängt eng mit Beugung und Bandlücken zusammen.",
+      correction: "Merksatz: Impuls „modulo G“."
+    },
+    {
+      section: "Pauli/FD",
+      text: "Die Fermi-Dirac-Statistik ist nötig, weil Elektronen Fermionen sind und dem Pauli-Prinzip folgen.",
+      correct: true,
+      explanation: "Die Ununterscheidbarkeit und das Pauli-Verbot führen dazu, dass die Besetzung nicht klassisch ist. Daher verwendet man FD statt einer klassischen Boltzmann-Verteilung, wenn es nötig ist.",
+      correction: "Merksatz: Fermion → FD."
+    },
+    {
+      section: "Zustandsdichte",
+      text: "Um eine Trägerdichte zu bestimmen, kombiniert man (qualitativ) Zustandsdichte und Besetzungswahrscheinlichkeit.",
+      correct: true,
+      explanation: "DOS sagt, wie viele Zustände es bei Energie E gibt. FD sagt, wie viele davon besetzt sind. Das Produkt (integriert über Energie) liefert z.B. Elektronendichten.",
+      correction: "Merksatz: DOS × FD → Trägerdichte."
+    },
+    {
+      section: "Bandstruktur",
+      text: "Elektronenleitung hängt im Halbleiter besonders von Zuständen nahe der Bandkanten und der Besetzung ab.",
+      correct: true,
+      explanation: "Nur dort gibt es frei bewegliche Träger (Elektronen im Leitungsband, Löcher im Valenzband). Tiefe Zustände sind meist voll besetzt und tragen nicht zur Leitung bei.",
+      correction: "Merksatz: Leitung an den Rändern, nicht tief im Band."
+    },
+    {
+      section: "Dotierung",
+      text: "Dotierung ändert im Vorlesungsmodell primär die Besetzung (und damit <span class=\"math\">E<sub>F</sub></span>), nicht die Bandlücke <span class=\"math\">E<sub>g</sub></span>.",
+      correct: true,
+      explanation: "Bänder sind Materialeigenschaften. Dotierung fügt Störstellen/Niveaus hinzu und verschiebt das Gleichgewicht, aber <span class=\"math\">E<sub>g</sub></span> bleibt im einfachen Modell gleich.",
+      correction: "Merksatz: Dotierung → EF, nicht Eg."
+    },
+    {
+      section: "Ladungsträgerdichten",
+      text: "Bei n-Typ gilt typischerweise: Elektronen sind Mehrheitsträger, Löcher Minderheitsträger.",
+      correct: true,
+      explanation: "Donatoren erhöhen n. Über <span class=\"math\">n·p=n<sub>i</sub><sup>2</sup></span> folgt dann p klein.",
+      correction: "Merksatz: n-Typ → n groß, p klein."
+    },
+    {
+      section: "Ladungsträgerdichten",
+      text: "Bei p-Typ gilt typischerweise: Löcher sind Mehrheitsträger, Elektronen Minderheitsträger.",
+      correct: true,
+      explanation: "Akzeptoren erhöhen p. Über das Massenwirkungsgesetz folgt n klein.",
+      correction: "Merksatz: p-Typ → p groß, n klein."
+    },
+    {
+      section: "Diffusion",
+      text: "Diffusion läuft immer von hoher zu niedriger Konzentration (statistischer Ausgleich).",
+      correct: true,
+      explanation: "Ohne äußeres Feld führt Zufallsbewegung zu einem Nettotransport vom hohen zum niedrigen Konzentrationsbereich.",
+      correction: "Merksatz: Diffusion glättet Gradienten."
+    },
+    {
+      section: "Einstein-Relation",
+      text: "Einstein-Relation zeigt: Drift und Diffusion sind im nicht-entarteten Fall thermisch gekoppelt.",
+      correct: true,
+      explanation: "Beide Effekte hängen an Temperatur und Streuung. Daher ist es didaktisch sinnvoll, Drift und Diffusion nicht als völlig getrennte Kapitel zu sehen.",
+      correction: "Merksatz: Zusammenhang über <span class=\"math\">kT/q</span>."
+    },
+    {
+      section: "pn-Übergang",
+      text: "Das interne Feld im pn-Übergang entsteht nicht, weil freie Elektronen „liegen bleiben“, sondern wegen ortsfester Ionen.",
+      correct: true,
+      explanation: "Freie Träger diffundieren und rekombinieren; die ortsfesten Ionen bleiben zurück und erzeugen die Raumladung.",
+      correction: "Merksatz: RLZ = ortsfeste Ionen."
+    },
+    {
+      section: "Banddiagramm",
+      text: "Wenn <span class=\"math\">E<sub>F</sub></span> im Gleichgewicht konstant ist, ist das ein starkes Indiz dafür, dass kein Nettostrom fließt.",
+      correct: true,
+      explanation: "Ein konstantes Fermi-Niveau entspricht einem Gleichgewicht des chemischen Potentials. Das korreliert mit dem Zustand „kein Nettotransport“.",
+      correction: "Merksatz: Gleichgewicht ↔ konstantes <span class=\"math\">E<sub>F</sub></span>."
+    },
+    {
+      section: "Diode",
+      text: "Im Sperrbetrieb ist der Strom klein, aber nicht exakt null.",
+      correct: true,
+      explanation: "Es gibt Minderheitsträger, thermische Generation und Prozesse in der Raumladungszone. Daher bleibt ein kleiner Sperrstrom übrig.",
+      correction: "Merksatz: Sperrstrom ≠ 0."
+    },
+    {
+      section: "Diode",
+      text: "In einer idealisierten Kennlinie wird der Vorwärtsstrom oft als sehr stark ansteigend beschrieben (exponentieller Charakter).",
+      correct: true,
+      explanation: "Didaktisch: Es reicht, den Charakter zu kennen (stark nichtlinear). Für tiefere Modelle kommen Parameter und Temperaturabhängigkeiten hinzu.",
+      correction: "Merksatz: Diode ist stark nichtlinear."
+    },
+    {
+      section: "Optoelektronik",
+      text: "Photodiode: Licht erhöht die Trägergeneration; das Feld trennt Träger und erzeugt Photostrom.",
+      correct: true,
+      explanation: "Das ist die qualitative Funktionskette: Absorption → Paare → Separation → Strom.",
+      correction: "Merksatz: Licht → Paare → Feld trennt → Strom."
+    },
+    {
+      section: "Optoelektronik",
+      text: "LED: Rekombination kann Photonen erzeugen; direkte Bandlücke ist dafür vorteilhaft.",
+      correct: true,
+      explanation: "Bei direkter Bandlücke ist Rekombination ohne zusätzliches Phonon möglich, daher ist die Strahlungswahrscheinlichkeit höher.",
+      correction: "Merksatz: direkte Bandlücke = effizientere LED."
+    },
+    {
+      section: "Quantenmechanik",
+      text: "Ein Elektron im Kristall zeigt Welleneigenschaften; diese sind zentral für Bandbildung.",
+      correct: true,
+      explanation: "Ohne Wellencharakter gäbe es keine Interferenz/Bragg-Effekte im Gitter. Genau diese führen zu Bandlücken und Bandstrukturen.",
+      correction: "Merksatz: Welle + Periodizität → Bänder."
+    },
+
+    /* ======= Ergänzungen für 80: noch 20 kompakte, aber formel- und begründungsstark ======= */
+
+    {
+      section: "Fermi-Dirac",
+      text: "Wenn <span class=\"math\">T</span> steigt, wird der Übergang der FD-Verteilung um <span class=\"math\">E<sub>F</sub></span> breiter (weniger „steil“).",
+      correct: true,
+      explanation: "Thermische Energie verwischt die scharfe Stufe. Dadurch sind auch Zustände oberhalb von <span class=\"math\">E<sub>F</sub></span> teilweise besetzt und darunter teilweise leer.",
+      correction: "Merksatz: Temperatur „verschmiert“ die Stufe."
+    },
+    {
+      section: "Boltzmann-Näherung",
+      text: "Die Boltzmann-Näherung ist besonders nützlich, wenn <span class=\"math\">f(E)</span> klein ist (nicht-entartet).",
+      correct: true,
+      explanation: "Dann ist der Nenner <span class=\"math\">1+exp(...)</span> von FD durch den Exponentialterm dominiert und man kann gut vereinfachen.",
+      correction: "Merksatz: klein f → exponentielle Näherung."
+    },
+    {
+      section: "Mobilität",
+      text: "Die Einheit der Mobilität ist <span class=\"math\">cm<sup>2</sup>/(V·s)</span> oder <span class=\"math\">m<sup>2</sup>/(V·s)</span>.",
+      correct: true,
+      explanation: "Weil <span class=\"math\">μ=v<sub>d</sub>/E</span> und <span class=\"math\">v</span> in m/s, <span class=\"math\">E</span> in V/m gemessen wird.",
+      correction: "Merksatz: Mobilität = Fläche/(Volt·Sekunde)."
+    },
+    {
+      section: "Drift",
+      text: "Wenn <span class=\"math\">E</span> verdoppelt wird (bei konstantem <span class=\"math\">n</span> und <span class=\"math\">μ</span>), verdoppelt sich <span class=\"math\">J<sub>Drift</sub></span>.",
+      correct: true,
+      explanation: "Direkt aus <span class=\"math\">J<sub>Drift</sub>=q·n·μ·E</span>: linear in der Feldstärke.",
+      correction: "Merksatz: Drift ist linear in E (im einfachen Modell)."
+    },
+    {
+      section: "Massenwirkungsgesetz",
+      text: "Das Massenwirkungsgesetz ist eine Aussage über thermisches Gleichgewicht; außerhalb des Gleichgewichts kann <span class=\"math\">n·p</span> von <span class=\"math\">n<sub>i</sub><sup>2</sup></span> abweichen.",
+      correct: true,
+      explanation: "Bei starker Injektion oder Beleuchtung können zusätzliche Träger entstehen, wodurch die Gleichgewichtsbeziehung nicht mehr gilt.",
+      correction: "Merksatz: MWG gilt im Gleichgewicht."
+    },
+    {
+      section: "pn-Übergang",
+      text: "Im pn-Übergang ist die Diffusion ohne internes Feld nicht stabil; das Feld baut sich so auf, dass Gleichgewicht entsteht.",
+      correct: true,
+      explanation: "Diffusion würde Träger weiter verschieben. Das entstehende Feld erzeugt Drift entgegen der Diffusion, bis sich beide kompensieren.",
+      correction: "Merksatz: Selbstkonsistentes Feld stellt Gleichgewicht her."
+    },
+    {
+      section: "Banddiagramm",
+      text: "Ein korrektes pn-Banddiagramm im Gleichgewicht muss ein flaches <span class=\"math\">E<sub>F</sub></span> zeigen.",
+      correct: true,
+      explanation: "Wenn <span class=\"math\">E<sub>F</sub></span> nicht flach wäre, wäre das ein Hinweis auf Nichtgleichgewicht/Nettofluss (je nach Kontext).",
+      correction: "Merksatz: Gleichgewicht → <span class=\"math\">E<sub>F</sub></span> flach."
+    },
+    {
+      section: "Optoelektronik",
+      text: "Die Aussage <span class=\"math\">E<sub>ph</sub>≈E<sub>g</sub></span> ist qualitativ: reale Spektren haben Breite und Verluste.",
+      correct: true,
+      explanation: "Praktisch sind Emission/Absorption nicht ideal monochromatisch. Aber als Grundregel verbindet <span class=\"math\">E<sub>g</sub></span> stark mit Wellenlänge/Farbe.",
+      correction: "Merksatz: Grundregel mit Realwelt-Korrekturen."
+    },
+    {
+      section: "Zustandsdichte",
+      text: "Ohne Zustandsdichte kann man aus der FD-Verteilung allein keine Trägerdichte bestimmen.",
+      correct: true,
+      explanation: "FD sagt nur, wie stark besetzt ist. Wenn du nicht weißt, wie viele Zustände es bei einer Energie gibt, kannst du nicht berechnen, wie viele Teilchen insgesamt da sind.",
+      correction: "Merksatz: FD ohne DOS ist unvollständig für Dichten."
+    },
+    {
+      section: "Pauli/Spin",
+      text: "Die Existenz von maximal zwei Elektronen pro Zustand beeinflusst maßgeblich, wie Bänder gefüllt werden.",
+      correct: true,
+      explanation: "Ohne Pauli-Prinzip könnten viele Elektronen denselben Zustand besetzen – dann sähe die gesamte Festkörperphysik anders aus. Pauli macht Fermi-See und damit viele Eigenschaften möglich.",
+      correction: "Merksatz: Pauli strukturiert die Besetzung."
+    },
+
+    /* ======= Noch 10, damit wir sicher bei 80 landen ======= */
+
+    {
+      section: "Materialien",
+      text: "Für viele Anwendungen ist nicht nur <span class=\"math\">E<sub>g</sub></span> wichtig, sondern auch Mobilität und Technologie (Fertigung).",
+      correct: true,
+      explanation: "Z.B. kann ein Material eine passende Bandlücke haben, aber wenn es schwer prozessierbar ist oder niedrige Mobilität hat, ist es technologisch unattraktiv.",
+      correction: "Merksatz: Praxis = Physik + Prozess + Parameter."
+    },
+    {
+      section: "Drift/Diffusion",
+      text: "Ein Halbleiter kann gleichzeitig Drift- und Diffusionsanteile haben, z.B. bei Feld und Konzentrationsgradient.",
+      correct: true,
+      explanation: "Das ist häufig der Normalfall in Bauelementen: Felder und Gradienten existieren gleichzeitig.",
+      correction: "Merksatz: <span class=\"math\">J<sub>ges</sub></span> ist Summe."
+    },
+    {
+      section: "Boltzmann-Näherung",
+      text: "Die Aussage „Boltzmann ist eine Näherung der FD-Verteilung“ ist korrekt.",
+      correct: true,
+      explanation: "Unter bestimmten Bedingungen (nicht-entartet) nähert man FD durch eine Exponentialfunktion an. Das vereinfacht Rechnungen stark.",
+      correction: "Merksatz: Boltzmann ≈ FD in nicht-entarteten Bereichen."
+    },
+    {
+      section: "pn-Übergang",
+      text: "Die Raumladungszone enthält ortsfeste positive und negative Ionen, die das Feld erzeugen.",
+      correct: true,
+      explanation: "n-Seite: positive Donatorionen; p-Seite: negative Akzeptorionen. Freie Träger sind dort stark reduziert.",
+      correction: "Merksatz: RLZ = Ionenraumladung."
+    },
+    {
+      section: "Diode",
+      text: "Bei Vorwärtsspannung wird die Barriere reduziert → mehr Trägerübertritt → mehr Rekombination im Übergangsbereich.",
+      correct: true,
+      explanation: "Das ist die qualitative Ursache des starken Vorwärtsstroms: erhöhte Injektion, erhöhte Rekombination/Diffusion.",
+      correction: "Merksatz: Vorwärts = Injektion."
+    },
+    {
+      section: "Fermi-Dirac",
+      text: "Eine korrekte Interpretation von <span class=\"math\">f(E)</span> ist: „Wahrscheinlichkeit, dass ein Zustand der Energie E besetzt ist“.",
+      correct: true,
+      explanation: "Es ist keine „Zustandsanzahl“, sondern eine Wahrscheinlichkeitsaussage. Genau deshalb braucht man zusätzlich die Zustandsdichte.",
+      correction: "Merksatz: f(E) = Besetzungswahrscheinlichkeit."
+    },
+    {
+      section: "Zustandsdichte",
+      text: "Spin-Entartung erhöht die Anzahl möglicher Besetzungen, nicht die Temperatur.",
+      correct: true,
+      explanation: "Spin ist eine Quantenzahl. Entartung bedeutet: mehrere Zustände haben gleiche Energie. Temperatur beeinflusst die Besetzung, nicht die Anzahl.",
+      correction: "Merksatz: Entartung = „mehr Zustände“, Temperatur = „andere Besetzung“."
+    },
+    {
+      section: "Mobilität",
+      text: "Mobilität ist nicht gleich Trägerdichte: <span class=\"math\">μ</span> beschreibt Beweglichkeit, <span class=\"math\">n</span> die Anzahl Träger.",
+      correct: true,
+      explanation: "Beides wirkt in <span class=\"math\">J<sub>Drift</sub>=q·n·μ·E</span>: Viele Träger mit niedriger Mobilität können ähnlich leiten wie wenige Träger mit hoher Mobilität.",
+      correction: "Merksatz: n = Menge, μ = Beweglichkeit."
+    },
+    {
+      section: "Effektive Masse",
+      text: "„Effektive Masse“ ist eine Modellgröße, die Elektronen im Kristall so behandelt, als ob sie sich wie freie Teilchen mit geänderter Masse bewegen.",
+      correct: true,
+      explanation: "Das fasst den Einfluss der Bandstruktur auf Dynamik kompakt zusammen. Praktisch ist das extrem nützlich, weil man mit <span class=\"math\">m*</span> viele Effekte rechnen/interpretieren kann.",
+      correction: "Merksatz: Kristall → freies Teilchen mit <span class=\"math\">m*</span>."
+    },
+    {
+      section: "Abschluss",
+      text: "Wenn du in diesem Quiz bei falschen Aussagen die korrekte Formulierung aktiv hinschreibst, steigt der Lerneffekt deutlich.",
+      correct: true,
+      explanation: "Das zwingt dich, Begriffe und Zusammenhänge präzise zu rekonstruieren – das ist genau die Fähigkeit, die in Prüfungen zählt.",
+      correction: "Merksatz: aktiv korrigieren > passiv lesen."
+    }
+
+];
 
     ];
 
