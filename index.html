@@ -1320,6 +1320,7 @@
 
       $("question").innerHTML = questions[current].text;
       updateHeader();
+      renderMath();
     }
 
     function answer(choice) {
@@ -1348,6 +1349,7 @@
         ${corrBlock}
       `;
       $("result").style.display = "block";
+      renderMath();
 
       $("btnTrue").disabled = true;
       $("btnFalse").disabled = true;
