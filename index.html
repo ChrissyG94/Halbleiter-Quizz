@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Halbleiter – Richtig/Falsch Trainer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    h1 { margin-bottom: 10px; }
+    .card {
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 8px;
+      border: 1px solid #888;
+      cursor: pointer;
+      background: #f5f5f5;
+    }
+    button:hover { background: #eaeaea; }
+    .correct { color: green; font-weight: bold; }
+    .wrong { color: red; font-weight: bold; }
+    .progress { margin-top: 10px; font-size: 0.9em; color: #555; }
+  </style>
+</head>
+<body>
+  <h1>Halbleiter – Richtig/Falsch Trainer</h1>
+  <p>Wähle <strong>Richtig</strong> oder <strong>Falsch</strong>. Danach erscheint die Lösung mit Erklärung.</p>
+
+  <div class="card">
+    <div id="question"></div>
+    <div>
+      <button onclick="answer(true)">Richtig</button>
+      <button onclick="answer(false)">Falsch</button>
+      <button onclick="nextQuestion()">Nächste</button>
+    </div>
+    <div id="result"></div>
+    <div class="progress" id="progress"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        text: "Im intrinsischen Halbleiter gilt n = p.",
+        correct: true,
+        explanation: "Elektronen und Löcher entstehen paarweise, daher sind ihre Dichten im intrinsischen Material gleich."
+      },
+      {
+        text: "Dotierung verändert die Bandlücke.",
+        correct: false,
+        explanation: "Dotierung verschiebt das Fermi-Niveau, die Bandlücke bleibt (im Modell der Vorlesung) unverändert."
+      },
+      {
+        text: "Im thermischen Gleichgewicht gilt J_Drift = − J_Diff.",
+        correct: true,
+        explanation: "Drift und Diffusion kompensieren sich, sodass die Gesamtstromdichte null ist."
+      },
+      {
+        text: "Ein indirekter Halbleiter kann kein Licht emittieren.",
+        correct: false,
+        explanation: "Emission ist möglich, aber ineffizient, da zusätzlich ein Phonon beteiligt sein muss."
+      }
+    ];
+
+    let current = 0;
+
+    function showQuestion() {
+      document.getElementById("question").innerText = questions[current].text;
+      document.getElementById("result").innerHTML = "";
+      document.getElementById("progress").innerText = `Frage ${current + 1} von ${questions.length}`;
+    }
+
+    function answer(choice) {
+      const q = questions[current];
+      const resultDiv = document.getElementById("result");
+
+      if (choice === q.correct) {
+        resultDiv.innerHTML = `<p class='correct'>Richtig!</p><p>${q.explanation}</p>`;
+      } else {
+        resultDiv.innerHTML = `<p class='wrong'>Nicht korrekt.</p><p>${q.explanation}</p>`;
+      }
+    }
+
+    function nextQuestion() {
+      current = (current + 1) % questions.length;
+      showQuestion();
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
