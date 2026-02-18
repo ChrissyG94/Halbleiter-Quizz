@@ -5,14 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Halbleiter – Was kann ich schon?</title>
   
-  <!-- MathJax für saubere Formeln (Brüche, Exponenten, etc.) -->
-  <script>
+  <!-- MathJax aktivieren -->
+    <script>
     window.MathJax = {
-      tex: { inlineMath: [['\\(', '\\)']] },
-      options: { skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] }
-    };
+     tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']]
+      },
+    options: {
+      skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+  };
   </script>
+
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 
   <style>
     :root {
@@ -517,7 +524,7 @@
 
     {
       section: "Fermi-Dirac",
-      text: "Die Fermi-Dirac-Verteilung lautet \\( f(E)=\\frac{1}{1+\\exp\\left(\\frac{E-E_F}{kT}\\right)} \\) und beschreibt die Besetzungswahrscheinlichkeit.",
+      text: "Die Fermi-Dirac-Verteilung lautet: \\[ f(E)=\\frac{1}{1+\\exp\\left(\\frac{E-E_F}{kT}\\right)} \\]" und beschreibt die Besetzungswahrscheinlichkeit.",
       correct: true,
       explanation: "Die Verteilung gibt die Wahrscheinlichkeit an, dass ein Zustand der Energie \\(E\\) besetzt ist. Bei \\(T=0\\,K\\) ist sie eine Stufenfunktion: unterhalb \\(E_F\\) ist \\(f(E)=1\\) (100% besetzt), oberhalb \\(E_F\\) ist \\(f(E)=0\\) (leer).",
       correction: "Merksatz: \\(E=E_F\\Rightarrow f(E)=0{,}5\\)."
